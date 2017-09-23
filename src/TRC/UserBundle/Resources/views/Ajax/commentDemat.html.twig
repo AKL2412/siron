@@ -1,0 +1,34 @@
+<div class="row">
+	<div class="container">
+		<strong class="pull-right-">
+		<u>
+    {{mes|length}} commentaire(s)  
+    </u>
+	</strong>
+	</div>
+</div>
+{%for m in mes %}
+{%set p = m.poste.employe %}
+<div class="box-comment">
+    <img class="img-circle img-sm" src="{{asset(p.image)}} " alt="User Image">
+
+                <div class="comment-text">
+                      <span class="username">
+                        {{p.prenom}} {{p.nom|upper}}
+                        <span class="text-muted pull-right">
+                        	
+                        	{{dureeLitterale(m.at)}}
+                        </span>
+                      </span><!-- /.username -->
+                  {{m.message}}
+                  {%if m.fichier is not null %}
+                    <p>
+                      <a href="{{asset(m.fichier.path)}}" target="_blank">
+                        <img src="{{asset(m.fichier.path)}} " height="50">
+                      </a>
+                    </p>
+                  {%endif%}
+                </div>
+                <!-- /.comment-text -->
+              </div>
+{%endfor%}

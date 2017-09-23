@@ -1,0 +1,13 @@
+<form onsubmit="testerConditions(event,this)"  url="{{url}} " method="post" enctype="multipart/form-data">
+<input type="text" name="scenario" value="{{id}}" class="hidden" hidden="hidden">
+{%for cond in conditions %}
+	{%for p in cond.paramtre %}
+		{{render(controller('TRCCoreBundle:Affichage:inputParametre',{parametre:p,condition:cond}))}}
+	{%endfor%}
+{%endfor%}
+<div>
+    <button type="submit" class="btn-primary btn btn-sm">
+        Tester
+    </button>
+</div>
+</form>

@@ -1,0 +1,93 @@
+<?php
+
+namespace TRC\CoreBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+/**
+ * Statut
+ *
+ * @ORM\Table(name="statut")
+ * @ORM\Entity(repositoryClass="TRC\CoreBundle\Repository\StatutRepository")
+ */
+class Statut
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="at", type="datetime")
+     */
+    private $at;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="commentaire", type="text", nullable=true)
+     */
+    private $commentaire;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="TRC\CoreBundle\Entity\Alerte")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $alerte;
+    /**
+     * @ORM\ManyToOne(targetEntity="TRC\CoreBundle\Entity\StatutAlerte")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $statut;
+    /**
+     * @ORM\ManyToOne(targetEntity="TRC\CoreBundle\Entity\Agent")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $agent;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function __construct(\TRC\CoreBundle\Entity\Agent $agent,\TRC\CoreBundle\Entity\Alerte $alerte){
+        $this->at = new \DateTime();
+        $this->alerte = $alerte;
+        $this->agent = $agent;
+    }
+    /**
+     * Set at
+     *
+     * @param \DateTime $at
+     *
+     * @return Statut
+     */
+    public function setAt($at)
+    {
+        $this->at = $at;
+
+        return $this;
+    }
+
+    /**
+     * Get at
+     *
+     * @return \DateTime
+     */
+    public function getAt()
+    {
+        return $this->at;
+    }
+}
+

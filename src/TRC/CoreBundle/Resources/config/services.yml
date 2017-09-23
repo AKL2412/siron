@@ -1,0 +1,94 @@
+services:
+#    trc_core.example:
+#        class: TRC\CoreBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]
+
+    trc_core.connexion:
+        class: TRC\CoreBundle\Connected\Connected
+        arguments: []
+        calls:
+            - [setEntityManager, ["@doctrine.orm.entity_manager"]]
+        tags:
+           - { name: kernel.event_listener, event: security.authentication.success,method: onKernelLogOk }
+    trc_core.request:
+        class: TRC\CoreBundle\Connected\Action
+        arguments: []
+        calls:
+            - [setEntityManager, ["@doctrine.orm.entity_manager"]]
+        tags:
+           - { name: kernel.event_listener, event: kernel.request,method: onKernelRequest }
+           - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+  #  trc_core.interactivelogin:
+  #      class: TRC\CoreBundle\Interactivelogin\Interactivelogin
+  #      arguments: []
+  #      calls:
+  #          - [setEntityManager, ["@doctrine.orm.entity_manager"]]
+  #      tags:
+  #         - { name: kernel.event_listener, event: security.interactive_login,method: onKernelLogOk }
+
+    trc_core.authenticationfail:
+        class: TRC\CoreBundle\Authentificationfail\Authentificationfail
+        arguments: []
+        calls:
+            - [setEntityManager, ["@doctrine.orm.entity_manager"]]
+        tags:
+           - { name: kernel.event_listener, event: security.authentication.failure,method: onKernelLogOk }
+
+#*********** LES SYSTEMES ******************
+
+    trc_core.central:
+        class: TRC\CoreBundle\Systemes\Central\Central
+        arguments: []
+        calls:
+            - [setEntityManager, ["@doctrine.orm.entity_manager","@trc_core.gu"]]
+    trc_core.export:
+        class: TRC\CoreBundle\Systemes\Data\Export
+
+    trc_core.sp:
+        class: TRC\CoreBundle\Systemes\SP\Pagination
+        arguments: []
+        calls:
+            - [setEntityManager, ["@doctrine.orm.entity_manager"]]
+    
+    trc_core.matricule:
+        class: TRC\CoreBundle\Systemes\Matricule\Matricule
+        arguments: []
+        calls:
+            - [setEntityManager, ["@doctrine.orm.entity_manager"]]
+
+    trc_core.journal:
+        class: TRC\CoreBundle\Systemes\Journal\Journal
+        arguments: []
+        calls:
+            - [setEntityManager, ["@doctrine.orm.entity_manager"]]
+    trc_core.noti:
+        class: TRC\CoreBundle\Systemes\Journal\Noti
+        arguments: []
+        calls:
+            - [setEntityManager, ["@doctrine.orm.entity_manager","@trc_core.gu"]]
+    trc_core.twig.extension:
+        class: TRC\CoreBundle\Systemes\Twig\TwigExtension
+        arguments: ["@doctrine.orm.entity_manager","@trc_core.gu","@trc_core.ddc"]
+        tags:
+            - { name: twig.extension }
+
+    trc_core.gu:
+        class: TRC\CoreBundle\Systemes\General\GU
+        arguments: []
+        calls:
+            - [setEntityManager, ["@doctrine.orm.entity_manager"]]
+    trc_core.sgf:
+        class: TRC\CoreBundle\Systemes\General\SGF
+        arguments: []
+        calls:
+            - [setEntityManager, ["@doctrine.orm.entity_manager"]]
+    trc_core.ddc:
+        class: TRC\CoreBundle\Systemes\General\DDC
+        arguments: ["@trc_core.gu"]
+        calls:
+            - [setEntityManager, ["@doctrine.orm.entity_manager"]]
+    trc_core.pagination:
+        class: TRC\CoreBundle\Systemes\Pagination\Pagination
+        arguments: []
+        calls:
+            - [setEntityManager, ["@doctrine.orm.entity_manager"]]

@@ -1,0 +1,412 @@
+{%extends 'TRCAdminBundle::Objet/definition.html.twig'%}
+{%block title%}
+{{parent()}}
+| {{objet.nom}}
+{%endblock%}
+{%block position %}
+	{{parent()}}
+		{%if objet.parent is not null %}
+			<li >
+          	<a href="{{url('trc_admin_objets_voir',{code:objet.parent.code})}} ">
+          		<i class="fa-cube fa" ></i>
+          		{{objet.parent.code}}
+          	</a>
+          </li>
+		{%endif%}
+          <li >
+          	<a href="{{url('trc_admin_objets_voir',{code:objet.code})}} ">
+          		<i class="fa-cube fa" ></i>
+          		{{objet.code}}
+          	</a>
+          </li>
+{%endblock position%}
+{%block titrepage%}
+    {{objet.nom}}
+    {%if not objet.active %}
+    	<span class="label label-danger">
+    		Désactivé
+    	</span>
+    {%endif%}
+{%endblock titrepage%}     
+{%block content%}
+
+	<div class="pad margin no-print">
+      <div class="callout callout-info" style="margin-bottom: 0!important;">
+        <h4># {{objet.code}}:
+        <a href="{{url('trc_admin_process',{objet:objet.code})}} " class="pull-right">
+        	<i class="fa- fa-refresh fa" ></i> process
+        </a>
+        </h4>
+        {{objet.description|raw}}
+      </div>
+    </div>
+{%if sousobjets.getTotalItemCount > 0%}
+    <div class="box box-success">
+	<div class="box-header with-border">
+		<h3 class="box-title">Les sous objet de <strong>{{objet.code}} </strong> ({{sousobjets.getTotalItemCount}}) </h3>
+		<div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+	</div>
+				           
+  <div class="box-body">
+  <div class="row">
+  	<div class="col-md-7">
+  		<table class="table">
+			      <tr>
+			      <th></th>
+			        <th>Code</th>
+			        <th>Nom</th>
+			        
+			      </tr>
+			        {% for a in sousobjets %}
+			          <tr>
+			          	<td>
+			          		{%if a.active %}
+			          			<a class="btn btn-success btn-xs" onclick="desActiveObjet(this,'{{a.id}}')">
+			          				<i class="fa-edit fa"></i>
+			          			</a>
+			          		{%else%}
+			          			<a class="btn btn-danger btn-xs" onclick="desActiveObjet(this,'{{a.id}}')">
+			          				<i class="fa-edit fa"></i>
+			          			</a>
+			          		{%endif%}
+			          	</td>
+			            <td>
+			              {{ a.code }}
+			            </td>
+			            <td>
+			            	<a href="{{url('trc_admin_objets_voir',{code:a.code})}} ">
+			            		 {{ a.nom }}
+			            	</a>
+			             
+			             </td>
+			           
+			          </tr>
+			        {% endfor %}
+			    </table>
+			    <div class="navigation">
+			      {{ knp_pagination_render(sousobjets) }}
+			    </div>
+  	</div>
+  </div>
+  </div>
+</div>
+{%endif%}
+<div class="box box-success">
+	<div class="box-header with-border">
+		<h3 class="box-title">Les instances de <strong>{{objet.code}} </strong> ({{instances.getTotalItemCount}}) </h3>
+		<div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+	</div>
+				           
+  <div class="box-body">
+  <div class="row">
+  	<div class="col-md-7">
+  		<table class="table">
+			      <tr>
+			      <th></th>
+			        <th>Code</th>
+			        <th>Nom</th>
+			        
+			      </tr>
+			        {% for a in instances %}
+			          <tr {% if loop.index is odd %}class="color"{% endif %}>
+			          	<td>
+			          		{%if a.active %}
+			          			<a class="btn btn-success btn-xs" onclick="desActiveInstance(this,'{{a.id}}')">
+			          				<i class="fa-edit fa"></i>
+			          			</a>
+			          		{%else%}
+			          			<a class="btn btn-danger btn-xs" onclick="desActiveInstance(this,'{{a.id}}')">
+			          				<i class="fa-edit fa"></i>
+			          			</a>
+			          		{%endif%}
+			          	</td>
+			            <td>
+			              {{ a.code }}
+			            </td>
+			            <td>
+			            	<a href="{{url('trc_admin_instance_voir',{objet:objet.code,code:a.code})}} ">
+			            		 {{ a.nom }}
+			            	</a>
+			             
+			             </td>
+			           
+			          </tr>
+			        {% endfor %}
+			    </table>
+			    <div class="navigation">
+			      {{ knp_pagination_render(instances) }}
+			    </div>
+  	</div>
+  	<div class="col-md-5">
+  		
+  		{{form_start(form)}}
+  		<div class="form-group">
+            <label for="exampleInputEmail1">Nom</label>
+                {{form_widget(form.nom,{'attr':{'class':'form-control'}})}}
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Code</label>
+                {{form_widget(form.code,{'attr':{'class':'form-control'}})}}
+        </div>
+        {{form_end(form)}}
+  	</div>
+  </div>
+  </div>
+</div>
+<div class="box box-primary">
+	<div class="box-header with-border">
+		<h3 class="box-title">Les paramètres de <strong>{{objet.code}} </strong> ({{parametres.getTotalItemCount}}) </h3>
+		<div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+	</div>
+				           
+  <div class="box-body">
+  <div class="row">
+  	<div class="col-md-7">
+  		<table class="table">
+			      <tr>
+			      <th></th>
+			        <th>Type</th>
+			        <th>Nom</th>
+			        <th>Caractère</th>
+			        <th>Valeur par défaut</th>
+			        <th>Liste de valeur</th>
+			      </tr>
+			        {% for a in parametres %}
+			          <tr {% if loop.index is odd %}class="color"{% endif %}>
+			          	<td>
+			          		{%if a.active %}
+			          			<a class="btn btn-success btn-xs" onclick="desActiveParametre(this,'{{a.id}}')">
+			          				<i class="fa-edit fa"></i>
+			          			</a>
+			          		{%else%}
+			          			<a class="btn btn-danger btn-xs" onclick="desActiveParametre(this,'{{a.id}}')">
+			          				<i class="fa-edit fa"></i>
+			          			</a>
+			          		{%endif%}
+			          	</td>
+			            <td>
+			              {{ a.type }}
+			            </td>
+			            <td>
+			              {{ a.nom }}
+			              </td>
+			              <td>
+			          		{%if a.obligatoire %}
+			          			<span class="label-danger label">
+			          				OBLIGATOIRE
+			          			</span>
+			          		{%else%}
+			          			<span class="label-warning label">
+			          				OPTIONNEL
+			          			</span>
+			          		{%endif%}
+			          	</td>
+			            <td>{{ a.defaut }}</td>
+			            <td>
+			            	{{a.liste}}
+			            </td>
+			          </tr>
+			        {% endfor %}
+			    </table>
+			    <div class="navigation">
+			      {{ knp_pagination_render(parametres) }}
+			    </div>
+  	</div>
+  	<div class="col-md-5">
+  		
+  		{{form_start(formparametre)}}
+  		<div class="form-group">
+            <label for="exampleInputEmail1">Nom</label>
+                {{form_widget(formparametre.nom,{'attr':{'class':'form-control'}})}}
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Type</label>
+                {{form_widget(formparametre.type,{'attr':{'class':'form-control'}})}}
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Caractère du paramètre</label>
+                {{form_widget(formparametre.obligatoire,{'attr':{'class':'form-control'}})}}
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Valeur par défaut</label>
+                {{form_widget(formparametre.defaut,{'attr':{'class':'form-control'}})}}
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Valeur maximale</label>
+                {{form_widget(formparametre.max,{'attr':{'class':'form-control'}})}}
+                
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Valeur de la liste</label>
+                {{form_widget(formparametre.liste,{'attr':{'class':'form-control'}})}}
+            <small>
+            	Quand le type sélectionné est liste, il faut lister ici les diférentes valeurs de la liste séparées par des ";"
+            </small>
+        </div>
+        {{form_end(formparametre)}}
+  	</div>
+  </div>
+  </div>
+</div>
+
+<div class="box box-warning">
+	<div class="box-header with-border">
+		<h3 class="box-title">La documentation de <strong>{{objet.code}}</strong> ({{documents.getTotalItemCount}}) </h3>
+		<div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+	</div>
+				           
+  <div class="box-body">
+  <div class="row">
+  	<div class="col-md-7">
+  		<table class="table">
+			      <tr>
+			      <th></th>
+			        
+			        <th>NOM</th>
+			        <td>Statut</td>
+			      </tr>
+			        {% for a in documents %}
+			          <tr {% if loop.index is odd %}class="color"{% endif %}>
+			          	<td>
+			          		{%if a.active %}
+			          			<a class="btn btn-success btn-xs" onclick="desActiveDocument(this,'{{a.id}}')">
+			          				<i class="fa-edit fa"></i>
+			          			</a>
+			          		{%else%}
+			          			<a class="btn btn-danger btn-xs" onclick="desActiveDocument(this,'{{a.id}}')">
+			          				<i class="fa-edit fa"></i>
+			          			</a>
+			          		{%endif%}
+			          	</td>
+			          
+			            <td>
+			              {{ a.nom }}
+			              </td>
+			              <td>
+			              	{%if a.obligatoire %}
+			              		Obligatoire
+			              	{%else%}
+			              		Optionnel
+			              	{%endif%}
+			              </td>
+			          </tr>
+			        {% endfor %}
+			    </table>
+			    <div class="navigation">
+			      {{ knp_pagination_render(documents) }}
+			    </div>
+  	</div>
+  	<div class="col-md-5">
+  		
+  		{{form_start(formdocument)}}
+  		<div class="form-group">
+            <label for="exampleInputEmail1">Nom</label>
+                {{form_widget(formdocument.nom,{'attr':{'class':'form-control'}})}}
+        </div>
+      	<div class="form-group">
+            <label for="exampleInputEmail1">Le statut du document</label>
+                {{form_widget(formdocument.obligatoire,{'attr':{'class':'form-control'}})}}
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Explication</label>
+                {{form_widget(formdocument.description,{'attr':{'class':'form-control'}})}}
+            
+        </div>
+        {{form_end(formdocument)}}
+  	</div>
+  </div>
+  </div>
+</div>
+
+
+<div class="box box-danger">
+	<div class="box-header with-border">
+		<h3 class="box-title">Les statuts de <strong>{{objet.code}} </strong> ({{decisions.getTotalItemCount}}) </h3>
+		<div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+	</div>
+				           
+  <div class="box-body">
+  <div class="row">
+  	<div class="col-md-7">
+  		<table class="table">
+			      <tr>
+			      <th></th>
+			        <th>Code</th>
+			        <th>Nom</th>
+			        
+			      </tr>
+			        {% for a in decisions %}
+			          <tr {% if loop.index is odd %}class="color"{% endif %}>
+			          	<td>
+			          		{%if a.active %}
+			          			<a class="btn btn-success btn-xs" onclick="desActiveDecision(this,'{{a.id}}')">
+			          				<i class="fa-edit fa"></i>
+			          			</a>
+			          		{%else%}
+			          			<a class="btn btn-danger btn-xs" onclick="desActiveDecision(this,'{{a.id}}')">
+			          				<i class="fa-edit fa"></i>
+			          			</a>
+			          		{%endif%}
+			          	</td>
+			            <td>
+			              {{ a.code }}
+			            </td>
+			            <td>
+			            		 {{ a.nom }}
+			            	
+			             
+			             </td>
+			           
+			          </tr>
+			        {% endfor %}
+			    </table>
+			    <div class="navigation">
+			      {{ knp_pagination_render(instances) }}
+			    </div>
+  	</div>
+  	<div class="col-md-5">
+  		
+  		{{form_start(formdecision)}}
+  		<div class="form-group">
+            <label for="exampleInputEmail1">Nom</label>
+                {{form_widget(formdecision.nom,{'attr':{'class':'form-control'}})}}
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Code</label>
+                {{form_widget(formdecision.code,{'attr':{'class':'form-control'}})}}
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Caractère de la décision</label>
+                {{form_widget(formdecision.ok,{'attr':{'class':'form-control'}})}}
+        </div>
+        {{form_end(formdecision)}}
+  	</div>
+  </div>
+  </div>
+</div>
+{%endblock content%}

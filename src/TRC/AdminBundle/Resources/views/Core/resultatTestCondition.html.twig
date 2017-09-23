@@ -1,0 +1,36 @@
+<table class="table">
+	<caption class="text-center">
+		Statut du test : 
+		{%if statut %}
+			<i class="fa-check-circle fa text-success"></i>
+		{%else%}
+			<i class="fa-times fa text-danger"></i>
+		{%endif%}
+	</caption>
+	<thead>
+		<tr>
+			<th> Paramètre</th>
+			<th> Valeur </th>
+			<th> Statut </th>
+		</tr>
+	</thead>
+	<tbody>
+		{%for a in params %}
+			<tr>
+				<td>
+					{{a.p}}
+				</td>
+				<td>
+					{{a.v}}
+				</td>
+				<td>
+					{%if a.s %}
+						<i class="fa-check fa text-success"></i>
+					{%else%}
+						<i class="fa-times fa text-danger"></i>
+					{%endif%}
+				</td>
+			</tr>
+		{%endfor%}
+	</tbody>
+</table>

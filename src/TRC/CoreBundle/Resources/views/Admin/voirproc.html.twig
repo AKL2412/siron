@@ -1,0 +1,61 @@
+{%extends 'TRCCoreBundle::Admin/voirmacro.html.twig'%}
+{%block title%}
+PROBA:{{processus.nom}}
+{%endblock%}
+{%block titre%}
+  {{parent()}}
+  <li class="">
+    <a href="{{url('trc_core_admin_type_macro_proc',{macro:processus.macro.code,type:processus.macro.type.code,proc:processus.code})}} ">
+      <i class="fa fa-angle-right"></i>
+        <i class="fa fa-cubes"></i>
+        {{processus.nom}}
+    </a>
+    
+  </li>
+{%endblock titre%}
+{%block content%}
+<div class="row">
+		<h2 class="text-center">
+			{{processus.nom}}
+		</h2>
+	</div>
+	<br>
+	<div class="row">
+		<div class="span7">
+          <div class="widget">
+            <div class="widget-header"> <i class="icon-bookmark"></i>
+              <h3>Les Sous-Processus [{{sousprocessus|length}}] </h3>
+            </div>
+            <!-- /widget-header -->
+            <div class="widget-content">
+              <div class="shortcuts"> 
+              	{%if sousprocessus|length > 0 %}
+              		{%for type in sousprocessus %}
+
+              			<a href="{{url('trc_core_admin_type_macro_proc_ssproc',{type:processus.macro.type.code,macro:processus.macro.code,proc:processus.code,ssproc:type.code})}}" class="shortcut">
+			              
+			              <span class="shortcut-label">{{type.nom}} </span> 
+		              </a>
+              		{%endfor%}
+              	{%else%}
+              		<div class="alert alert-danger text-center">
+              			<h3>
+              				Aucun sous processus
+              			</h3>
+              		</div>
+              	{%endif%}
+              
+              
+              </div>
+              <!-- /shortcuts --> 
+            </div>
+            <!-- /widget-content --> 
+          </div>
+        
+        </div>
+        <div class="span4">
+        	<h4 class="text-center-">Ajout de sous processus</h4>
+        	{{form(form)}}
+        </div>
+	</div>
+{%endblock content%}

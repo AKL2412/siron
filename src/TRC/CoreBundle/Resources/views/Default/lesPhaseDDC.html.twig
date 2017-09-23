@@ -1,0 +1,37 @@
+<div class="row">
+	<div class="container">
+		<a class="pull-right-" target="_blank" href="{{url('trc_core_download_resume_ddc',{id:id,phase:phase,download:true})}}">
+			<i class="fa-download fa"></i>
+			Exporter sous excel
+		</a>
+	</div>
+</div>
+<div class="row">
+	<h4 class="text-center text-success">
+		{{ddc.rc}}
+	</h4>
+	{%for d in datas %}
+		<div class="col-md-12" >
+			<div style="border-bottom: 1px solid rgba(0,0,0,0.1); margin-top: 8px;">
+				<h6 class="text-danger pull-right"> [{{d.duree.str}}]</h6>
+				<h5 class="text-info">{{d.titre|raw}} </h5>
+				<h6>
+					Décision : <em> {{d.decision}} </em>
+				</h6>
+				<div class="well">
+					{{d.commentaire|raw}}
+				</div>
+				<p>
+					<em>
+						{{d.date}}
+					</em>
+				</p>
+				<p class="text-warning">
+
+				<img src="{{asset(d.image)}} " class="img-circle" height="50"> {{d.auteur}} - {{d.profil}} {{d.lieu}} 
+				</p>
+				
+			</div>
+		</div>
+	{%endfor%}
+</div>

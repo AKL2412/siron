@@ -1,0 +1,149 @@
+<!-- Messages: style can be found in dropdown.less-->
+          <li class="dropdown messages-menu" id="mesSMS" >
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-envelope-o"></i>
+               {%if sms.nonlu > 0 %}
+                  <span class="label label-danger">
+               
+                    {{sms.nonlu}}
+                
+              </span>
+              {%endif%}
+            </a>
+            <ul class="dropdown-menu">
+              {%if sms.nonlu > 0 %}
+                <li class="header">Vous avez {{sms.nonlu}} message(s)</li>
+              {%endif%}
+             
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                {%for d in sms.sms %}
+                  {%set s = d.s %}
+                  {%set uti = getEmploye(s.send) %}
+                  {%if uti is not null %}
+                  <li ><!-- start message -->
+                  
+                    <a {%if not s.lu %} class="bg-info" {%endif%} href="#" send="{{s.send.id}}" onclick="readSMS(this)">
+                      <div class="pull-left">
+                        <img src="{{asset(uti.image)}} " class="img-circle" alt="User Image">
+                      </div>
+                      <h4>
+                        {{uti.prenom}}
+                        <small><i class="fa fa-clock-o"></i> 
+                        {{dureeLitterale(s.at)}}
+                        </small>
+                      </h4>
+                      <p>
+                        {%if s.contenu|length > 32 %}
+                          {{s.contenu|slice(0,32)}}...
+                          
+                            :::{{d.t}}
+                          
+                        {%else%}
+                          {{s.contenu}}
+                        {%endif%}
+                      </p>
+                    </a>
+                  </li>
+                  {%endif%}
+                {%endfor%}
+                 
+                </ul>
+              </li>
+              <li class="footer"><a href="#">See All Messages</a></li>
+            </ul>
+          </li>
+          <!-- Notifications: style can be found in dropdown.less -->
+          <li class="dropdown notifications-menu" id="mesNotif">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-bell-o"></i>
+              
+                {%if notis.nonlu > 0 %}
+                  <span class="label label-warning">
+                    {{notis.nonlu}}
+                  </span>
+                {%endif%}
+              
+            </a>
+            <ul class="dropdown-menu">
+              {%if notis.nonlu > 0 %}
+                <li class="header">Vous avez  {{notis.nonlu}} notification(s)</li>
+              {%endif%}
+              
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                  {%for n in notis.notis %}
+                    <li>
+                      <a {%if not n.lu %} class="bg-info" {%endif%} href="#" onclick="readNotification(this,'{{n.id}}')">
+                        {%if n.lu %}
+                        <i class="fa fa-envelope-o"></i> 
+                        {%else%}
+                          <i class="fa fa-envelope"></i> 
+                        {%endif%}
+                        {{n.titre}}
+                      </a>
+                    </li>
+                  {%endfor%}
+                </ul>
+              </li>
+              <li class="footer"><a href="#">View all</a></li>
+            </ul>
+          </li>
+                <!-- Tasks: style can be found in dropdown.less 
+          <li class="dropdown tasks-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-flag-o"></i>
+              {#%if points|length > 0 %}
+                <span class="label label-danger">
+                  {{points|length }}
+                </span>
+              {%endif%}
+            </a>
+            <ul class="dropdown-menu">
+              {%if points|length > 0 %}
+                
+                <li class="header">Vous avez {{points|length}} action(s)</li>
+              {%endif%}
+              
+              <li>
+                
+                <ul class="menu">
+                {%for p in points %}
+                     {%set couleur = "" %}
+                      {%if p.taux >= 80 %}
+                        {%set couleur = "green" %}
+                      {%elseif p.taux > 30 and p.taux < 80 %}
+                        {%set couleur = "yellow" %}
+                      {%else%}
+                        {%set couleur = "red" %}
+                      {%endif%}
+                  <li>Task item
+                    <a href="{{url('trcsdc_comite_voir_reunions_voir_point',{scte:app.session.get('_scte').code,slug:p.reunion.comite.slug,code:p.reunion.code,pt:p.code})}}">
+                      <h3>
+                        {{p.titre}}
+                        <small class="pull-right">{{p.Taux}} %</small>
+                      </h3>
+                      <div class="progress xs">
+                        <div class="progress-bar progress-bar-{{couleur}}" style="width: {{p.taux}}%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                          <span class="sr-only">{{p.taux}}% Complete</span>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+
+                {%endfor%#}
+                  
+                 
+                </ul>
+              </li>
+              {#%if not is_granted('ROLE_SUPER_ADMIN')%#}
+              <li class="footer">
+                <a href="#">View all tasks</a>
+              </li>
+              {#%endif%#}
+            </ul>
+          </li>
+          -->
+

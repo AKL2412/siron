@@ -1,0 +1,245 @@
+
+<div class="row mbl">
+    <div class="col-lg-12">
+                                
+    	<div class="col-md-12">
+    	    <div id="area-chart-spline" style="width: 100%; height: 300px; display: none;">
+    	    </div>
+    	</div>
+                                
+    </div>
+
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-md-12">
+            	<h2>
+                    {%if poste is not null %}
+                        {%set ag = getEntite(poste.entite) %}
+            		    {%if poste.profil is not null %}
+                           <p class="badge">#{{poste.profil.nom}} </p>
+                        {%else%}
+                            Pas Statut 
+                        {%endif%}
+                        
+                        <small>
+                            {#{poste.entite.classe}#}
+                        </small>
+
+                        
+                    {%endif%}
+            	</h2>
+
+                <div class="row mtl">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="text-center mbl">
+                            	<img url="{{asset(utilisateur.image)}} " src="{{asset(utilisateur.image)}} " height="480" alt="" class="zoom thumbnail img-responsive"/>
+                            </div>
+                            <div class="text-center mbl">
+        {%if is_granted('ROLE_ADMIN') and utilisateur.compte != app.user %}
+       <button type="button" class="btn btn-green btn-lg" data-toggle="modal" data-target=".bs-example-modal-sm">Affecter à une entité</button>
+       {%endif%}
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+     
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h5 class="modal-title" id="myModalLabel">
+                Sélectionner l'entité 
+            </h5>
+        </div>
+        <div class="modal-body">
+            <ul class="list-group">
+            <a href="{{url('trc_admin_utilisateurs_affectation_a_une_entite',{entite:'Agence',matricule:utilisateur.matricule})}} " class="">
+              <li class="list-group-item btn">
+                        <i class="fa-bank fa"></i>
+                        Agences
+              </li>
+              </a>
+              <a href="{{url('trc_admin_utilisateurs_affectation_a_une_entite',{entite:'Zone',matricule:utilisateur.matricule})}} " class="">
+              <li class="list-group-item btn">
+                        <i class="fa-tag fa"></i>
+                        Zone
+              </li>
+              </a>
+              <a href="{{url('trc_admin_utilisateurs_affectation_a_une_entite',{entite:'BOC',matricule:utilisateur.matricule})}} " class="">
+              <li class="list-group-item btn">
+                        <i class="fa-gears fa"></i>
+                        Back Office Crédit
+              </li>
+              </a>
+              <a href="{{url('trc_admin_utilisateurs_affectation_a_une_entite',{entite:'CIC',matricule:utilisateur.matricule})}} " class="">
+              <li class="list-group-item btn">
+                        <i class="fa-check-circle fa"></i>
+                        Comité Interne de Crédit
+              </li>
+              </a>
+               <a href="{{url('trc_admin_utilisateurs_affectation_a_une_entite',{entite:'Siege',matricule:utilisateur.matricule})}} " class="">
+              <li class="list-group-item btn">
+                        <i class="fa-bookmark fa"></i>
+                        Siège
+              </li>
+              </a>
+            </ul>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-9">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                            	<a href="#tab-info" data-toggle="tab">
+                            		Informations
+                            	</a>
+                            </li>
+                            <li>
+                            	<a href="#tab-fonctions" data-toggle="tab">
+                            		Fonctions
+                            	</a>
+                            </li>
+                            <li>
+                            	<a href="#ddp" data-toggle="tab">
+                            		Délégation de Pouvoir #DDP
+                            	</a>
+                            </li>
+                            <!-- <li>
+                                <a href="#tab-messages" data-toggle="tab">
+                                    Message
+                                </a>
+                            </li> -->
+                        </ul>
+                        <div id="generalTabContent" class="tab-content">
+                            <div id="tab-info" class="tab-pane fade in active">
+                                <table class="table table-striped table-condensed">
+                            		<tbody>
+		                                <tr>
+		                                    <td>Nom et Prénom </td>
+		                                    <td>
+		                                    	{{utilisateur.nom|upper}}
+												{{utilisateur.prenom}}
+		                                    </td>
+		                                </tr>
+		                                <tr>
+		                                    <td>Email</td>
+		                                    <td>{{utilisateur.email}} </td>
+		                                </tr>
+		                                <tr>
+		                                    <td>Adresse</td>
+		                                    <td>{{utilisateur.adresse}}</td>
+		                                </tr>
+		                                
+		                            </tbody>
+		                        </table>
+                            </div>
+                            <div id="tab-fonctions" class="tab-pane fade in">
+                                <table class="table table-condensed ">
+                                    <thead>
+                                        <tr>
+                                            <th>Statut</th>
+                                            <th>Entité</th>
+                                            <th>Date d'affectation</th>
+                                            <th>Etat</th>
+                                            <th>Date de départ</th>
+
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        {%for fonction in fonctions %}
+
+                                            <tr>
+                                                <td>
+                                                {%if fonction.profil is not null %}
+                                                    {{fonction.profil.nom}}
+                                                {%else%}
+                                                    Non Spécifié
+                                                {%endif%}
+                                                </td>
+                                                <td>
+                                                    {%set ent = getEntite(fonction.entite)%}
+                                                    {%if ent is not null %}
+                                                       {{fonction.entite.classe}}::{{ent.nom}}
+                                                    {%else%}
+                                                        ERREUR
+                                                    {%endif%}
+                                                </td>
+                                                <td>
+                                                    {{fonction.dateaffectation|date('d-m-Y H:i')}}
+                                                </td>
+                                                <td>
+                                                    {%if fonction.active %}
+                                                        Activée
+                                                    {%else%}
+                                                        Desactivée
+                                                        <a role="{{url('trc_core_archiver',{classe:'Fonction',id:fonction.id})}} " href="#" class="archiver btn-danger btn btn-xs">
+                                                            <i class="fa-archive fa"></i>
+                                                            Archiver
+                                                        </a>
+                                                    {%endif%}
+                                                </td>
+                                                <td>
+                                                    {%if fonction.dateretrait is not null %}
+                                                    {{fonction.dateretrait|date('d-m-Y H:i')}}
+                                                    {%endif%}
+                                                </td>
+                                            </tr>
+                                        {%endfor%}
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                            <div id="ddp" class="tab-pane fade in">
+                                <div class="row">
+                                    {%if poste is not null and poste.profil is not null %}
+                                        {{render(controller('TRCCoreBundle:Affichage:ddp',{poste:poste}))}}
+
+
+                                    {%else%}
+                                        Veuillez renseigner le poste et le profil
+                                    {%endif%}
+                                </div>
+                            </div>
+                            <div id="tab-messages" class="tab-pane fade in">
+                                        <div class="row mbl">
+                                            <div class="col-lg-6"><span style="margin-left: 15px"></span><input type="checkbox"/><a href="#" class="btn btn-success btn-sm mlm mrm"><i class="fa fa-send-o"></i>&nbsp;
+                                                Write Mail</a><a href="#" class="btn btn-white btn-sm"><i class="fa fa-trash-o"></i>&nbsp;
+                                                Delete</a></div>
+                                            <div class="col-lg-6">
+                                                <div class="input-group"><input type="text" class="form-control"/><span class="input-group-btn"><button type="button" class="btn btn-white">Search</button></span></div>
+                                            </div>
+                                        </div>
+                                        <div class="list-group">
+                                        	<a href="#" class="list-group-item">
+                                        		<input type="checkbox"/>
+                                        		<span class="fa fa-star text-yellow mrm mlm"></span>
+                                        		<span style="min-width: 120px; display: inline-block;" class="name">Bhaumik Patel</span><span>Sed ut perspiciatis unde</span>&nbsp; - &nbsp;<span style="font-size: 11px;" class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit</span><span
+                                                class="badge">12:10 AM</span><span class="pull-right mrl"><span class="glyphicon glyphicon-paperclip"></span></span></a>
+                                        </div>
+                            </div>
+                                </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+                              
+                                </div>
+                                
+                            
+                     
+                            
+                        </div>

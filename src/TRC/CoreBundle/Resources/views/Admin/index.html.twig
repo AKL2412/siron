@@ -1,0 +1,95 @@
+{%extends '::layout.html.twig'%}
+{%block title%}
+PROBA:Admin
+{%endblock%}
+{%block titre%}
+  <li class="active">
+    <a href="{{url('trc_core_admin')}} ">
+      <i class="fa-book fa"></i>
+      Procédure
+    </a>
+     
+  </li>
+{%endblock titre%}
+{%block content%}
+<div>
+  <a href="{{url('trc_core_admin_ajouter_procedure')}} " class="btn btn-xs btn-primary">
+    <i class="fa-plus-circle fa"></i>
+    Ajouter une procédure
+  </a>
+</div>
+<br>
+<div class="row">
+	<div class="span6">
+          <div class="widget">
+            <div class="widget-header"> <i class="icon-bookmark"></i>
+              <h3>Les différentes fonctions [{{types|length}}] </h3>
+            </div>
+            <!-- /widget-header -->
+            <div class="widget-content">
+              <div class="shortcuts"> 
+              	{%if types|length > 0 %}
+              		{%for type in types %}
+
+              			<a href="{{url('trc_core_admin_type',{type:type.code})}}" class="shortcut">
+			              
+			              <span class="shortcut-label">{{type.nom}} </span> 
+		              </a>
+              		{%endfor%}
+              	{%else%}
+              		<div class="alert alert-danger text-center">
+              			<h3>
+              				Aucun type
+              			</h3>
+              		</div>
+              	{%endif%}
+              
+              
+              </div>
+              <!-- /shortcuts --> 
+            </div>
+            <!-- /widget-content --> 
+          </div>
+         <div>
+         	<h3>
+         		Ajouter une fonction
+         	</h3>
+         	{{form(ftype)}}
+         </div>
+        </div>
+    <div class="span6">
+          <div class="widget">
+            <div class="widget-header"> <i class="icon-bookmark"></i>
+              <h3>Les entités [{{entites|length}}] </h3>
+            </div>
+            <!-- /widget-header -->
+            <div class="widget-content">
+              <div class="shortcuts"> 
+              {%if entites|length > 0 %}
+              		{%for type in entites %}
+
+              			<a href="{{url('trc_core_admin_entites',{code:type.code})}} " class="shortcut">
+			              <span class="shortcut-label">{{type.nom}} </span> 
+		              </a>
+              		{%endfor%}
+              	{%else%}
+              		<div class="alert alert-danger text-center">
+              			<h3>
+              				Aucun type
+              			</h3>
+              		</div>
+              	{%endif%}
+                               </div>
+              <!-- /shortcuts --> 
+            </div>
+            <!-- /widget-content --> 
+          </div>
+         <div>
+         	<h3>
+         		Ajouter une entité
+         	</h3>
+         	{{form(fentite)}}
+         </div>
+        </div>
+</div>
+{%endblock content%}

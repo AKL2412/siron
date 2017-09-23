@@ -1,0 +1,94 @@
+trc_admin_homepage:
+    path:     /
+    defaults: { _controller: TRCAdminBundle:Default:index }
+
+trc_admin_ajoututil:
+    path:     /ajout-employes
+    defaults: { _controller: TRCAdminBundle:Default:ajoutUtilisateur }
+trc_admin_utilisateurs_modifier:
+    path:     /employes/modification/{id}
+    defaults: { _controller: TRCAdminBundle:Default:ajoutUtilisateur }
+trc_admin_utilisateurs:
+    path:     /employes
+    defaults: { _controller: TRCAdminBundle:Default:utilisateurs }
+
+trc_admin_utilisateurs_voir:
+    path:     /employes/{id}
+    defaults: { _controller: TRCAdminBundle:Default:utilisateurVoir }
+
+
+trc_admin_services:
+    path:     /entites
+    defaults: { _controller: TRCAdminBundle:Default:services }
+
+trc_admin_services_modif:
+    path:     /entites/modif/{id}
+    defaults: { _controller: TRCAdminBundle:Default:services }
+
+trc_admin_services_voir:
+    path:     /entites/{code}
+    defaults: { _controller: TRCAdminBundle:Default:servicesVoir }
+
+trc_admin_apps:
+    path:     /apps
+    defaults: { _controller: TRCAdminBundle:Default:apps }
+trc_admin_apps_modif:
+    path:     /apps/{id}
+    defaults: { _controller: TRCAdminBundle:Default:apps }
+
+trc_admin_fonctions:
+    path:     /fonctions
+    defaults: { _controller: TRCAdminBundle:Default:fonctions }
+
+trc_admin_fonctions_modif:
+    path:     /fonctions/{id}
+    defaults: { _controller: TRCAdminBundle:Default:fonctions }
+
+
+trc_admin_objets:
+    path:     /definition-des-objets
+    defaults: { _controller: TRCAdminBundle:Objet:definition }
+
+trc_admin_objets_voir:
+    path:     /definition-des-objets/{code}
+    defaults: { _controller: TRCAdminBundle:Objet:voirObjet }
+
+trc_admin_instance_voir:
+    path:     /definition-des-objets/{objet}/{code}
+    defaults: { _controller: TRCAdminBundle:Objet:voirInstance }
+
+
+trc_admin_decisions:
+    path:     /decisions
+    defaults: { _controller: TRCAdminBundle:Core:decisions }
+trc_admin_decisions_modif:
+    path:     /decisions/{id}
+    defaults: { _controller: TRCAdminBundle:Core:decisions }
+trc_admin_process:
+    path:     /definition-process/{objet}
+    defaults: { _controller: TRCAdminBundle:Core:process }
+trc_admin_process_modif:
+    path:     /definition-process/{objet}/modif/{id}
+    defaults: { _controller: TRCAdminBundle:Core:process }
+
+trc_admin_process_scenario:
+    path:     /definition-process/{objet}/{code}
+    defaults: { _controller: TRCAdminBundle:Core:scenario }
+
+trc_admin_tester_condition:
+    path:     /tester-les-conditions/{objet}/{code}
+    defaults: { _controller: TRCAdminBundle:Core:testCondition }
+
+
+## SNA
+trc_admin_statut_dossier:
+    path:     /statuts-de-dossier
+    defaults: { _controller: TRCAdminBundle:SNA:statutDossier }
+
+trc_admin_garantie_dossier:
+    path:     /garanties-de-dossier
+    defaults: { _controller: TRCAdminBundle:SNA:garantieDossier }
+
+trc_admin_mon_compte:
+    path:     /mon-compte
+    defaults: { _controller: TRCAdminBundle:Default:compte }

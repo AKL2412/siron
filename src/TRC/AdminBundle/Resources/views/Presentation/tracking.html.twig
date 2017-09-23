@@ -1,0 +1,36 @@
+{%if pagination.getTotalItemCount > 0 %}
+<table class="table table-condensed table-bordered">
+	<thead>
+		<th>Action</th>
+		<th>Date</th>
+		<th>
+			Description
+		</th>
+	</thead>
+	<tbody>
+		{%for track in pagination %}
+			<tr>
+				<td>
+					{{track.action}}
+				</td>
+				<td>
+					{{track.at|date('d/m/Y H:i')}}
+				</td>
+				<td>
+					{{track.description|raw}}
+				</td>
+			</tr>
+		{%endfor%}
+	</tbody>
+	<div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+</table>
+{%else%}
+<div class="callout callout-danger">
+    <h4>Aucun Track Démat!</h4>
+	<p>
+		Les tracks démat sont l'enregistrement de certaines actions des utilisateurs
+    </p>
+</div>
+{%endif%}

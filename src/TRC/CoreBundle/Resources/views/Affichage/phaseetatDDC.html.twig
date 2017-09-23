@@ -1,0 +1,67 @@
+<div class="etatPhaseDDC row">
+        
+       
+        <div class="col-md-7">
+        {%set array = phaseTraitable(app.user,ddc) %}
+        {{array.message|raw}} 
+        {%if array.codecentre == 'CETDOS' %}
+            {%if array.codeetape == 1 and array.code == 1%}
+                <a class="btn btn-xs btn-primary"  href="{{url('trcddc_decision_commentaire_ddc',{rc:ddc.rc,codecentre:array.codecentre})}} ">Terminer la collecte de document</a>
+            {%elseif array.codeetape == 2 %}
+                <a class="btn btn-xs btn-primary" href="{{url('trcddc_decision_commentaire_ddc',{rc:ddc.rc,codecentre:array.codecentre})}} ">Commenter et Statuer</a>
+            {%endif%}
+
+        {%elseif array.codeetape == 0 and array.code == 1%}
+
+            {%if array.fonction is defined %}
+                {%if array.fonction == 0 %}
+                    <a class="btn btn-xs btn-primary" href="{{url('trcddc_decision_commentaire_ddc',{rc:ddc.rc,codecentre:array.codecentre})}} ">Commenter et Statuer</a>
+                {%else%}
+                    {%if array.utilisateur.compte == app.user %}
+                        <a class="btn btn-xs btn-primary" href="{{url('trcddc_decision_commentaire_ddc',{rc:ddc.rc,codecentre:array.codecentre})}} ">Commenter et Statuer</a>
+                    {%endif%}
+                {%endif%}
+            {%else%}
+            <a class="btn btn-xs btn-primary" href="{{url('trcddc_decision_commentaire_ddc',{rc:ddc.rc,codecentre:array.codecentre})}} ">Commenter et Statuer</a>
+            {%endif%}
+        {%elseif array.codecentre == 'CSCAD' %}
+            
+                <div class="well">
+                    {{array.commentaire|raw}}
+                </div>
+            {%if array.ajournement and estMembreDDC(app.user,ddc)%}
+                Reactiver le dossier (encours...)
+            {%endif%}
+        {%endif%}
+           
+        </div>
+        <div class="col-md-5">
+        <a href="{{url('trcddc_ddc_edp',{rc:ddc.rc})}} " title="Espace De Partage" class="pull-right">
+
+        <i class="fa-comments fa btn-xs btn"></i>
+            EDP 
+        </a>
+        <a class="noti-modal pull-right btn-xs btn"  href="#" link="{{url('trc_core_resume_ddc',{id:ddc.id,phase:0})}}">
+                    <i class="fa-eye fa"></i>
+            Voir fiche | 
+        </a>
+        {%if not ddcStatuer(ddc) and estMembreDDC(app.user,ddc)%}
+        <a class="btn-xs btn pull-right" href="{{url('trcddc_ajout_docs',{rs:ddc.rs,type:"documents-joints-au-dossier"})}} ">
+
+            <i class="fa-upload fa"></i>
+            Chargement de fichier
+        </a>
+        {%endif%}
+        <a class="noti-modal pull-right btn-xs btn"  href="#" link="{{url('trc_core_resume_ddc',{id:ddc.id,phase:1})}}">
+                    <i class="fa-tasks fa"></i>
+            Voir resumé  
+        </a>
+       
+        {%if is_granted('ROLE_DO')%}
+            <a href="{{url('trcddc_renseignement_cec',{rc:ddc.rc})}} " class="pull-right btn btn-xs">
+                Détails du crédit
+            </a>
+        {%endif%}
+        </div>
+
+</div>

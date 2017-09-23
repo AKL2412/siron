@@ -1,0 +1,25 @@
+<div class="form-group">
+	<label>
+		{{parametre.nom}}
+	</label>
+	{%if 'Nombre' == parametre.type %}
+		<input required="required" type="number" name="{{parametre.id}}" value="{{parametre.defaut}}"  class="form-control" parametre="{{parametre.id}}" condition="{{cond}}"
+		{%if parametre.max is not null %} max="{{parametre.max}}" {%endif%}
+		>
+	{%elseif 'Liste' == parametre.type %}
+		<select required="required"  class="form-control" name="{{parametre.id}}" parametre="{{parametre.id}}" condition="{{cond}}">
+		<option value>
+			Choisir {{parametre.nom}}
+		</option>
+			{%for val in parametre.valeurs %}
+				<option value="{{val.valeur}}">
+					{{val.valeur}}
+				</option>
+			{%endfor%}
+		</select>
+	{%elseif 'Texte' == parametre.type %}
+	<textarea required="required" type="number" name="{{parametre.id}}" value="{{parametre.defaut}}"  class="form-control" parametre="{{parametre.id}}" condition="{{cond}}"></textarea>
+	{%else%}
+	<input required="required" type="text" name="{{parametre.id}}" value="{{parametre.defaut}}"  class="form-control" parametre="{{parametre.id}}" condition="{{cond}}">
+	{%endif%}
+</div>

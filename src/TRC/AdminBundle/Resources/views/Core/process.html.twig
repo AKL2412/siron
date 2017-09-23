@@ -1,0 +1,159 @@
+{%extends 'TRCAdminBundle::Objet/voirObjet.html.twig'%}
+{%block title%}
+{{parent()}}
+| Process
+{%endblock%}
+{%block position %}
+	{{parent()}}
+          <li >
+          	<a href="{{url('trc_admin_process',{objet:objet.code})}} ">
+          		<i class="fa- fa-refresh fa" ></i>
+          		Process
+          	</a>
+          </li>
+{%endblock position%}
+{%block titrepage%}
+    Process de <em>
+      <u>{{objet.nom}}</u>
+    </em>
+{%endblock titrepage%}     
+{%block content%}
+<div class="row">
+  <div class="col-md-6">
+    <div class="box box-primary">
+  <div class="box-header with-border">
+    <h3 class="box-title">Les scénarios de {{objet.code}} ({{pagination.getTotalItemCount}}) </h3>
+  </div>
+                   
+  <div class="box-body">
+  <div class="row">
+    <div class="">
+      <table class="table">
+            <tr>
+              <th></th>
+              <th>code</th>
+              <th>Nom</th>
+              <th>Entité</th>
+            </tr>
+              {% for a in pagination %}
+                <tr>
+                  <td>
+                    {%if a.active %}
+                      <a class="btn btn-success btn-xs" onclick="desActiveScenario(this,'{{a.id}}')">
+                        <i class="fa-edit fa"></i>
+                      </a>
+                    {%else%}
+                      <a class="btn btn-danger btn-xs" onclick="desActiveScenario(this,'{{a.id}}')">
+                        <i class="fa-edit fa"></i>
+                      </a>
+                    {%endif%}
+                  </td>
+                  <td>
+                    <a href="{{url('trc_admin_process_scenario',{objet:objet.code,code:a.code})}} ">
+                      {{ a.code }}
+                    </a>
+                    
+                  </td>
+                  <td>
+                    {{a.nom}} ({{a.id}})
+                  </td>
+                  <td>
+                    {{a.entite}}
+                  </td>
+                </tr>
+              {% endfor %}
+          </table>
+          <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+          </div>
+    </div>
+    
+  </div>
+  </div>
+</div>
+  </div>
+  <div class="col-md-6">
+    <div class="box box-success">
+      <div class="box-header with-border">
+        <h3 class="box-title">
+        Définition de scénario 
+        </h3>
+      </div>                 
+        <div class="box-body">
+         {{form_start(form)}}
+          <div class="form-group">
+            <label>
+              Instruction
+              {{form_widget(form.instruction)}}
+            </label>
+            <label>
+              Finalisation
+              {{form_widget(form.finalisation)}}
+            </label>
+            <label>
+              Acheminement
+              {{form_widget(form.transmission)}}
+            </label>
+          </div>
+          <div class="form-group">
+            <label>
+              Nom du scénario
+            </label>
+            {{form_widget(form.nom,{'attr':{'class':'form-control'}})}}
+          </div>
+          <div class="form-group">
+            <label>
+              Excécuteur(s)
+            </label>
+            {{form_widget(form.executeurs,{'attr':{'class':'select2 form-control','data-placeholder':"Choisir un exécuteur"}})}}
+          </div>
+          <div class="form-group">
+            <label>
+              Réceptionnaire(s)
+            </label>
+            {{form_widget(form.receptionnaires,{'attr':{'class':'select2 form-control','data-placeholder':"Choisir un Réceptionnaire"}})}}
+          </div>
+          <div class="form-group">
+            <label>
+              Entité de réceptionnaire(s)
+            </label>
+            {{form_widget(form.entite,{'attr':{'class':'select2 form-control','data-placeholder':"Entité de Réceptionnaire"}})}}
+          </div>
+          <div class="form-group">
+            <label>
+              Statut(s)
+            </label>
+            {{form_widget(form.decisions,{'attr':{'class':'select2 form-control','data-placeholder':"Choisir une décision"}})}}
+          </div>
+          <div class="form-group">
+            <label>
+              Type(s) concerné(s)
+            </label>
+            {{form_widget(form.instances,{'attr':{'class':'select2 form-control','data-placeholder':"Choisir une instance"}})}}
+          </div>
+          <div class="form-group">
+            <label>
+              Contenu de la notification(s)
+            </label>
+            {{form_widget(form.message,{'attr':{'class':'textarea form-control'}})}}
+            <p>
+              <small>
+                Les variables suivantes permettent de personnaliser le message de notification: <br>
+                <strong> REALISATEUR :</strong> Exécuteur <br>
+                <strong> DEMAT :</strong> Référence de la démat concernée <br>
+
+              </small>
+            </p>
+          </div>
+          <div class="form-group">
+            <label>
+              Une description du scénario
+            </label>
+            {{form_widget(form.description,{'attr':{'class':'textarea form-control'}})}}
+          </div>
+         {{form_end(form)}}
+        </div>
+    </div>  
+  </div>
+</div>
+{%endblock content%}

@@ -1,0 +1,46 @@
+{%set date = "" %}
+                {%set heure = "" %}
+                {%for m in messages %}
+
+                {%if date == m.at|date('d-m-Y') %}
+
+                {%else%}
+                  {%set date = m.at|date('d-m-Y') %}
+                  <div class="text-center">
+                    <em>
+                      {{date}}
+                    </em>
+                  </div>
+                {%endif%}
+                  {%set heure = m.at|date('H:i') %}
+                {%if m.send == moi.compte %}
+                <div class="direct-chat-msg right">
+                  <div class="direct-chat-info clearfix">
+                    <span class="direct-chat-name pull-right">{{moi.prenom}} </span>
+                    <span class="direct-chat-timestamp pull-left">{{heure}} </span>
+                  </div>
+                  <!-- /.direct-chat-info -->
+                  <img class="direct-chat-img" src="{{asset(moi.image)}}" alt="Message User Image"><!-- /.direct-chat-img -->
+                  <div class="direct-chat-text">
+                    {{m.contenu}}
+                  </div>
+                  <!-- /.direct-chat-text -->
+                </div>
+                {%else%}
+                <div class="direct-chat-msg">
+                  <div class="direct-chat-info clearfix">
+                    <span class="direct-chat-name pull-left">{{sender.prenom}} </span>
+                    <span class="direct-chat-timestamp pull-right">{{heure}}</span>
+                  </div>
+                  <!-- /.direct-chat-info -->
+                  <img class="direct-chat-img" src="{{asset(sender.image)}}" alt="Message User Image"><!-- /.direct-chat-img -->
+                  <div class="direct-chat-text">
+                    {{m.contenu}}
+                  </div>
+                  <!-- /.direct-chat-text -->
+                </div>
+
+
+                {%endif%}
+                {{messageLu(m,app.user)}}
+                {%endfor%}

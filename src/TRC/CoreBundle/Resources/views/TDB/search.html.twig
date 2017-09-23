@@ -1,0 +1,110 @@
+<span class="label-success label badge">
+		{{periodes.debut|date('d-m-Y')}}
+	</span>
+	<span class="label-default label badge">
+	 	<i class="fa-chevron-left fa"></i>
+	 	<i class="fa-chevron-right fa"></i>
+	 </span>
+	 <span class="label-danger label badge">
+	 	{{periodes.fin|date('d-m-Y')}}
+	 </span>
+	 <hr>
+{%if results|length > 0 %}
+	
+	<table class="table table-condensed table-striped">
+		<thead>
+			<tr>
+				<th></th>
+				<th>Réference du dossier</th>
+				<th>Type de crédit</th>
+				<th>Client</th>
+				<th>Décision</th>
+				<th>Date de la décision</th>
+				{%if is_granted('ROLE_RZ')%}
+					<th>Agence</th>
+				{%endif%}
+				<th></th>
+				{%if is_granted('ROLE_CA') and not is_granted('ROLE_RZ')%}
+					<th>Agent</th>
+				{%endif%}
+			</tr>
+		</thead>
+		<tbody>
+			{%for p in results %}
+				{%set ddc = p.ddc %}
+				
+				<tr>
+					<td>
+						<span class="decision {{p.decision.code}}"> 
+						</span>
+						
+					</td>
+					<td>
+						<a href="{{url('trcddc_consulter',{rc:p.ddc.rc})}} ">
+							{{p.ddc.rc}}
+						</a>
+						
+					</td>
+					<td>{{p.ddc.tdc.nom}} </td>
+					<td>
+						<a href="{{url('trc_client_consulter',{radical:p.ddc.client.radical})}} ">
+							{{p.ddc.client.radical}}
+						</a>
+					</td>
+					<td>
+						{{p.decision.nom}} 
+					
+					</td>
+					<td>{{p.datedecision|date('d-m-Y H:i')}} </td>
+					{%if is_granted('ROLE_RZ')%}
+						<td>
+							{{p.agence.nom}}
+						</td>
+					{%endif%}
+					<td>
+						<a class="noti-modal btn-xs btn"  href="#" link="{{url('trc_core_resume_ddc',{id:ddc.id,phase:0})}}">
+                    		<i class="fa-eye fa"></i>
+            				Voir fiche 
+        				</a>
+            			<a class="noti-modal  btn-xs btn" href="#" link="{{url('trc_core_resume_ddc',{id:ddc.id,phase:1})}}">
+                    	<i class="fa-tasks fa"></i>
+            			Voir resumé  
+        				</a>
+        				{#%if not is_granted('ROLE_ADMIN') and is_granted('ROLE_CAD')%}
+        					<a href="#" class="archive-cad btn btn-danger btn-xs">
+        						<i class="fa-archive fa"></i>
+        						Archiver le dossier
+        					</a>
+        				{%endif%#}
+					</td>
+					{%if is_granted('ROLE_CA') and not is_granted('ROLE_RZ')%}
+					{%set u = getParentActeur(ddc.fonction.acteur) %}
+						<td>
+							{{u.matricule}}
+						</td>
+					{%endif%}
+				</tr>
+			{%endfor%}
+		</tbody>
+	</table>	
+	<div>
+		{{ 
+				render(controller('TRCCoreBundle:Affichage:pagination',{pagination:pagination,ajax:true,containerId:'les-ddcs'})) 
+			}}
+	</div>
+{%else%}
+	<div class=" alert text-center">
+		<h3 style="color: rgba(0,0,0,0.1); font-weight: bolder;">
+			Pas de resultat
+		</h3>
+	</div>
+{%endif%}
+
+<script src="{{asset('script/jquery-1.10.2.min.js')}}"></script>
+<script src="{{asset('script/bootstrap.min.js')}}"></script>
+<script type="text/javascript">
+	(function(){
+		$('a.noti-modal').off("click","**");
+	})();
+</script>
+<script src="{{asset('js/own/image.js')}}"></script>

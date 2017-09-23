@@ -1,0 +1,162 @@
+{%extends '::layout.html.twig'%}
+{%block title%}
+{{parent()}}
+| profile
+{%endblock%}
+{%block position %}
+  {{parent()}}
+          <li >
+          	<a href="{{url('trc_admin_mon_compte')}} ">
+          		Mon profile
+          	</a> 
+          </li>
+{%endblock position%}
+{%block titrepage%}
+     {{moi.code}}
+{%endblock titrepage%}
+ {%block avancement%}     
+ {%endblock avancement%}     
+{%block content%}
+<div class="row">
+        <div class="col-md-3">
+
+          <!-- Profile Image -->
+          <div class="box box-success">
+            <div class="box-body box-profile">
+              <img class="profile-user-img img-responsive img-circle" src="{{asset(moi.image)}} " alt="User profile picture">
+
+              <h3 class="profile-username text-center">
+                {{moi.prenom}}
+                {{moi.nom|upper}}
+              </h3>
+
+              <p class="text-muted text-center">
+                {%if poste is not null %}
+                  {{poste.fonction.code}}<br>
+                  <small>
+                    {{poste.service.nom}}
+                  </small>
+                {%else%}
+                  <small class="text-danger">
+                    <i class="fa-warning fa"></i>
+                    Poste n'est pas renseigné
+                  </small>
+                {%endif%}
+              </p>
+
+              <ul class="list-group list-group-unbordered">
+                <li class="list-group-item">
+                  <b>Email</b> 
+                  <a class="pull-right-">
+                  <small>
+                    {{moi.email}}
+                  </small>
+                  </a>
+                </li>
+                <li class="list-group-item">
+                  <b>Téléphone</b> <a class="pull-right">{{moi.telephone}} </a>
+                </li>
+                <li class="list-group-item">
+                  <b>@</b> <a class="pull-right">{{moi.code}} </a>
+                </li>
+
+                
+                 
+                    
+                
+                  
+
+              </ul>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+          <!-- About Me Box -->
+          <div class="box box-success">
+            <div class="box-header with-border">
+              <h3 class="box-title">About Me</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              {%for p in postes %}
+                <strong>
+                  {%if p.active %}
+                    <i class="fa-check-circle fa text-success pull-left"></i>
+                  {%endif%}
+                  {{p.fonction.nom}}
+                  
+                </strong>
+
+                  <p class="text-muted">
+                    {{p.service.nom}}
+                  </p>
+
+                  <hr>
+              {%endfor%}
+
+              <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
+              <p>
+              {%if poste is not null %}
+                {{poste.fonction.actions|raw}}
+              {%endif%}
+              </p>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-9">
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              
+              <li  class="active"><a href="#motdepasse" data-toggle="tab">Modifier mot de passe</a></li>
+              
+            </ul>
+            <div class="tab-content">
+           
+
+            
+              <div class=" tab-pane active" id="motdepasse">
+                  <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                      <form onsubmit="modifierMotPasse(event,this)">
+                    
+                        <div class="form-group">
+                          <label>
+                            Nouveau mot de passe
+                          </label>
+                          <input type="password" name="nouveau" class="form-control" required="required">
+                        </div>
+                        <div class="form-group">
+                          <label>
+                            Nouveau mot de passe (Confirmation)
+                          </label>
+                          <input type="password" name="confirmation" class="form-control" required="required">
+                        </div>
+
+                        <div class="form-group">
+                          <button class="btn btn-success btn-sm" type="submit">
+                            Modifier
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+              </div>
+            
+              <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+          </div>
+          <!-- /.nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
+      </div>
+{%endblock%}
+{%block script%}
+<script type="text/javascript">
+    //activeLink("ajout-utilisateur")
+</script>
+{%endblock script%}

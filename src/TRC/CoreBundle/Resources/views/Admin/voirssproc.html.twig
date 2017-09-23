@@ -1,0 +1,71 @@
+{%extends 'TRCCoreBundle::Admin/voirproc.html.twig'%}
+{%block title%}
+PROBA:{{ssp.nom}}
+{%endblock%}
+{%block titre%}
+  {{parent()}}
+  <li class="">
+    <a href="{{url('trc_core_admin_type_macro_proc_ssproc',{macro:macro.code,type:type.code,proc:processus.code,ssproc:ssp.code})}} ">
+      <i class="fa fa-angle-right"></i>
+        <i class="fa fa-cube"></i>
+        {{ssp.nom}}
+    </a>
+    
+  </li>
+{%endblock titre%}
+{%block content%}
+<div class="row">
+		<h2 class="text-center">
+			{{ssp.nom}}
+		</h2>
+	</div>
+	<br>
+	<div class="row">
+		<div class="span12">
+          <div class="widget">
+            <div class="widget-header"> <i class="icon-bookmark"></i>
+              <h3>Les Procedures [{{procedures|length}}] </h3>
+            </div>
+            <!-- /widget-header -->
+            <div class="widget-content">
+              <div class="shortcuts"> 
+              	{%if procedures|length > 0 %}
+                    <table class="table table-condensed table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Titre</th>
+                          <th>Code</th>
+                        </tr>
+                      </thead>   
+                   
+              		{%for type in procedures %}
+                      <tr>
+                        <td>
+                          {{type.titre}}
+                        </td>
+                        <td> 
+                          {{type.code}}
+                        </td>
+                      </tr>
+              			
+              		{%endfor%}
+                     </table>
+              	{%else%}
+              		<div class="alert alert-danger text-center">
+              			<h3>
+              				Aucune procédure
+              			</h3>
+              		</div>
+              	{%endif%}
+              
+              
+              </div>
+              <!-- /shortcuts --> 
+            </div>
+            <!-- /widget-content --> 
+          </div>
+        
+        </div>
+       
+	</div>
+{%endblock content%}

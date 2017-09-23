@@ -1,0 +1,117 @@
+
+          <div class="box box-primary direct-chat direct-chat-primary" send="{{sender.compte.id}} ">
+            <div class="box-header with-border">
+              <h4 class="box-title">
+                {{sender.prenom}}
+              </h4>
+
+              <div class="box-tools pull-right">
+               
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Contacts" data-widget="chat-pane-toggle">
+                  <i class="fa fa-user"></i></button>
+                <button type="button" class="btn btn-box-tool" onclick="removeBox(this)"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <!-- Conversations are loaded here -->
+              <div class="direct-chat-messages">
+                <!-- Message. Default to the left -->
+                
+                {%set date = "" %}
+                {%set heure = "" %}
+                {%for m in messages %}
+
+                {%if date == m.at|date('d-m-Y') %}
+
+                {%else%}
+                  {%set date = m.at|date('d-m-Y') %}
+                  <div class="text-center">
+                    <em>
+                      {{date}}
+                    </em>
+                  </div>
+                {%endif%}
+                  {%set heure = m.at|date('H:i') %}
+                {%if m.send == moi.compte %}
+                <div class="direct-chat-msg right">
+                  <div class="direct-chat-info clearfix">
+                    <span class="direct-chat-name pull-right">{#{moi.prenom}#} </span>
+                    <span class="direct-chat-timestamp pull-left">{{heure}} </span>
+                  </div>
+                  <!-- /.direct-chat-info -->
+                  <img class="direct-chat-img" src="{{asset(moi.image)}}" alt="Message User Image"><!-- /.direct-chat-img -->
+                  <div class="direct-chat-text">
+                    {{m.contenu}}
+                  </div>
+                  <!-- /.direct-chat-text -->
+                </div>
+                {%else%}
+                <div class="direct-chat-msg">
+                  <div class="direct-chat-info clearfix">
+                    <span class="direct-chat-name pull-left">{{sender.prenom}} </span>
+                    <span class="direct-chat-timestamp pull-right">{{heure}}</span>
+                  </div>
+                  <!-- /.direct-chat-info -->
+                  <img class="direct-chat-img" src="{{asset(sender.image)}}" alt="Message User Image"><!-- /.direct-chat-img -->
+                  <div class="direct-chat-text">
+                    {{m.contenu}}
+                  </div>
+                  <!-- /.direct-chat-text -->
+                </div>
+
+
+                {%endif%}
+                {{messageLu(m,app.user)}}
+                {%endfor%}
+                
+              </div>
+              <!--/.direct-chat-messages-->
+
+              <!-- Contacts are loaded here -->
+              <div class="direct-chat-contacts">
+                <ul class="contacts-list">
+                  <li>
+                    <a href="#">
+                      <img class="contacts-list-img" src="{{asset(sender.image)}} " alt="User Image">
+
+                      <div class="contacts-list-info">
+                            <span class="contacts-list-name">
+                              {{sender.prenom}}
+                              {{sender.nom|upper}}
+                              <small class="contacts-list-date pull-right">
+                                {{"now"|date('d/m/Y H:i:s')}}
+                              </small>
+                            </span>
+                        <span class="contacts-list-msg">
+                          {%set poste = getMonPoste(sender) %}
+                          {%if poste is not null %}
+                            <i class="fa-user-md fa"></i> {{poste.fonction.nom}} <br>  <i class="fa-home fa"></i> {{poste.service.nom}}
+                          {%endif%}
+                        </span>
+                      </div>
+                      <!-- /.contacts-list-info -->
+                    </a>
+                  </li>
+                  <!-- End Contact Item -->
+                </ul>
+                <!-- /.contatcts-list -->
+              </div>
+              <!-- /.direct-chat-pane -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+          
+                <div class="form-group">
+                  <input onkeyup="sendSMSInput(this,event)" send="{{sender.compte.id}}" id="send{{sender.id}}" type="text" name="message" placeholder="Type Message ..." class="form-control" >
+                      <!-- <span class="input-group-btn">
+                        <button type="submit" class="btn btn-primary btn-flat">Send</button>
+                      </span> -->
+                </div>
+             
+            </div>
+            <!-- /.box-footer-->
+          </div>
+     

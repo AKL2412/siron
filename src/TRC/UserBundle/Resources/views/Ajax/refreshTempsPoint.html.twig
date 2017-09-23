@@ -1,0 +1,49 @@
+{%set tempss = tempsPoint(point) %}
+
+{%set code = 'green' %}
+{%if tempss.taux < 80 and tempss.taux > 30 %}
+{%set code = 'yellow' %}
+{%elseif tempss.taux <= 30%}
+{%set code = 'red' %}
+{%endif%}
+{%if tempss.taux > 0 %}
+<div class="info-box bg-{{code}}">
+            <span class="info-box-icon"><i class="fa fa-clock-o"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Temps restant
+              {{tempss.taux}}
+              </span>
+              <span class="info-box-number">
+              	{{tempss.jours}}
+              </span>
+              <div class="progress">
+                <div class="progress-bar" style="width: {{tempss.taux}}%"></div>
+              </div>
+               <span class="progress-description">
+                    Echéance {{point.deadline|date('d-m-Y')}}
+               </span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+{%else%}
+<div class="info-box bg-{{code}}">
+            <span class="info-box-icon"><i class="fa fa-clock-o"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Temps restant
+              0
+              </span>
+              <span class="info-box-number">
+              	Délai écoulé 
+              </span>
+              <div class="progress">
+                <div class="progress-bar" style="width: 0%"></div>
+              </div>
+               <span class="progress-description">
+                    Echéance {{point.deadline|date('d-m-Y')}}
+               </span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+{%endif%}

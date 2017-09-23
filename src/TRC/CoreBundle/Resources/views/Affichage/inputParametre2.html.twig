@@ -1,0 +1,33 @@
+<div class="form-group">
+	<label>
+		{{parametre.nom}}
+	</label>
+	{%if 'Nombre' == parametre.type %}
+		<input {{required}} type="number" name="{{p.id}}" value="{{p.valeur}}"  class="form-control"  
+		{%if parametre.max is not null %} max="{{parametre.max}}" {%endif%}
+		>
+	{%elseif 'Liste' == parametre.type %}
+		<select {{required}}  class="form-control" name="{{p.id}}"  >
+		<option value>
+			Choisir {{parametre.nom}}
+		</option>
+			{%for val in parametre.valeurs %}
+				{%if val.valeur == p.valeur %}
+				<option value="{{val.valeur}}" selected="selected">
+					{{val.valeur}}
+				</option>
+				{%else%}
+				<option value="{{val.valeur}}">
+					{{val.valeur}}
+				</option>
+				{%endif%}
+			{%endfor%}
+		</select>
+	{%elseif 'Texte' == parametre.type %}
+	<textarea {{required}} type="number" name="{{p.id}}" value="{{p.valeur}}"  class="form-control textarea"  ></textarea>
+	{%elseif 'Date' == parametre.type %}
+		<input {{required}} type="text" name="{{p.id}}" value="{{p.valeur}}"  class="form-control datepicker" >
+	{%else%}
+	<input {{required}} type="text" name="{{p.id}}" value="{{p.valeur}}"  class="form-control"  >
+	{%endif%}
+</div>

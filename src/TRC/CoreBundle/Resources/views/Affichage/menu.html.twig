@@ -1,0 +1,120 @@
+<ul class="sidebar-menu" id="my-sidebar">
+        <li class="header text-center">
+          {%block app%}
+          {{"BASN 1.0.3"|upper}}
+          {%endblock%}
+        </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-bank"></i> <span>BASN</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+              {%for d in directions %}
+              <li class="{{d.code}}" title="{{d.nom}}">
+                <a href="{{url('trc_tromb_service',{code:d.code})}}">
+                  <i class="fa fa-circle-o"></i> {{d.code}}
+                </a>
+              </li>
+              {%endfor%}
+          </ul>
+        </li>
+{% if is_granted("ROLE_TROMB") %}
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-newspaper-o"></i> <span>Actualités</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+              <li class="actualites">
+                <a href="{{url('trc_tromb_actu')}}">
+                  <i class="fa fa-circle-o"></i> Liste
+                </a>
+              </li>
+              <li class="ajout-actualites">
+                <a href="{{url('trc_tromb_actu_ajouter')}}">
+                  <i class="fa fa-circle-o"></i> Ajouter
+                </a>
+              </li>
+                
+                
+            
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-users"></i> <span>Employés</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+              <li class="utilisateurs">
+                <a href="{{url('trc_admin_utilisateurs')}}">
+                  <i class="fa fa-circle-o"></i> Liste
+                </a>
+              </li>
+              <li class="ajout-utilisateur">
+                <a href="{{url('trc_admin_ajoututil')}}">
+                  <i class="fa fa-circle-o"></i> Ajouter
+                </a>
+              </li>
+                
+                
+            
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-wrench"></i> <span>Paramétrage</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+              <li class="entites">
+                <a href="{{url('trc_admin_services')}}">
+                  <i class="fa fa-circle-o"></i> Entitiés
+                </a>
+              </li>
+              <li class="fonctions">
+                <a href="{{url('trc_admin_fonctions')}}">
+                  <i class="fa fa-circle-o"></i> Fonctions
+                </a>
+              </li>
+            {% if is_granted("ROLE_ADMIN") %}
+            <li class="apps">
+                <a href="{{url('trc_admin_apps')}}">
+                  <i class="fa fa-circle-o"></i> Apps
+                </a>
+              </li> 
+            {%endif%}
+            
+          </ul>
+        </li>
+    {%endif%}
+{%if apps|length > 0 %}
+<li class="treeview">
+          <a href="#">
+            <i class="fa fa-gg"></i> <span>APPLICATIONS</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+              {%for d in apps %}
+              <li class="" title="{{d.detail}}">
+                <a href="{{d.lien}}" target="new">
+                  <i class="fa fa-circle-o"></i> {{d.nom | upper}}
+                </a>
+              </li>
+              {%endfor%}
+          </ul>
+</li>
+{%endif%}
+      </ul>

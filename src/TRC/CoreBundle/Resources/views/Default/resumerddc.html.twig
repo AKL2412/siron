@@ -1,0 +1,327 @@
+<div id="resumeDDC">
+<div class="row">
+	<h5 class="text-center">
+		<span class="entete">
+			{{"fiche de renseignement crédit"|upper}}
+		</span>
+	</h5>
+	<h6 class="text-center text-danger">
+		<span class="entete">
+			{{ddc.tdc.nom|upper}}
+		</span>
+	</h6>
+	<h6 class="text-center">
+		<span class="titre">
+			{{"renseignement generaux"|upper}}
+		</span>
+	</h6>
+</div>
+<p>
+	Dossier monté le : {{ddc.at|date('d-m-Y H:i')}}
+</p>
+<div class="row">
+{%if ddc.client is not null %}
+	{%set client = ddc.client %}
+	{%if client.identite is not null %}
+		{%set identite = client.identite %}
+		<div class="col-md-8">
+			<table class=" table-condensed table table-striped">
+				<caption class="text-success text-center">
+					<h5>#{{client.radical}}</h5>
+				</caption>
+				<tr>
+					<td>Nom et Prénom : </td>
+					<td><strong>{{identite.nom~" "~identite.prenom|upper}} </strong> </td>
+				</tr>
+				<tr>
+					<td>Date et lieu de naissance : </td>
+					<td><strong>{{identite.ddn|date('d/m/Y')~" à "~identite.ldn|upper}} </strong> </td>
+				</tr>
+				<tr>
+					<td>Situation de famille: </td>
+					<td><strong>{{identite.sdf.nom|upper}} </strong> </td>
+				</tr>
+				{%if client.coordonnee is not null %}
+					{%set coordonnee = client.coordonnee %}
+					<tr>
+						<td>Adresse personnelle : </td>
+						<td><strong>{{coordonnee.adresse}} </strong> </td>
+					</tr>
+				{%else%}
+					<tr>
+						<td colspan="2">
+							Les coordonnées du client n'ont pas été saisies
+						</td>
+					</tr>
+				{%endif%}
+				{%if client.employeur is not null %}
+					{%set employeur = client.employeur %}
+					<tr>
+						<td>Adresse professionnelle : </td>
+						<td><strong>{{employeur.adresseSociale}} </strong> </td>
+					</tr>
+				{%else%}
+					<tr>
+						<td colspan="2">
+							L'employeur du client n'ont pas été saisies
+						</td>
+					</tr>
+				{%endif%}
+			</table>
+		</div>
+		<!-- Les comptes -->
+		<div class="row">
+			<div class="col-md-12">
+				{%set comptes = getComptesClient(ddc.client) %}
+				<table class="table table-consended table-striped table-bordered">
+					{%if comptes|length > 0 %}
+						<caption class="text-success">
+							{{comptes|length}} compte(s)
+						</caption>
+						<thead>
+							<tr>
+								<th>
+									{{"nature du compte"|upper}}
+								</th>
+								<th>
+									{{"n° du compte"|upper}}
+								</th>
+								<th>
+									{{"solde"|upper}}
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{%for compte in comptes %}
+								<tr>
+									<td>{{compte.type}} </td>
+									<td>{{compte.numeroCompte}} </td>
+									<td>{{compte.solde}} </td>
+								</tr>
+							{%endfor%}
+						</tbody>
+					{%else%}
+						<caption class="text-danger">
+							Aucun compte renseigné
+						</caption>
+					{%endif%}
+				</table>
+				
+			</div>
+		</div>
+		<!-- La profession -->
+		{%if client.profession is not null %}
+			<div>
+				<strong>Fonction occupée : </strong>
+				{{client.profession.fonction}}
+			</div>
+		{%else%}
+			<div>
+				<strong>Fonction occupée : </strong>
+				Non renseignée
+			</div>
+		{%endif%}
+		<div class="row">
+			<h6 class="text-center">
+				<span class="titre">
+					{{"employeur"|upper}}
+				</span>
+			</h6>
+		</div>	
+		{%if client.employeur is not null %}
+			{%set employeur = client.employeur %}
+			<table class=" table-condensed">
+				<tr>
+					<td>Dénomination: </td>
+					<td><strong>{{employeur.denomination|upper}} </strong> </td>
+				</tr>
+				<tr>
+					<td>L'employeur est il client : </td>
+					<td>
+						{%if employeur.estclient %}
+							<label>
+								Oui
+								<input type="checkbox" disabled="disabled" checked="checked" />
+							</label>
+							<label>
+								Non
+								<input type="checkbox" disabled="disabled" />
+							</label>
+						{%else%}
+							<label>
+								Oui
+								<input type="checkbox" disabled="disabled"  />
+							</label>
+							<label>
+								Non
+								<input type="checkbox" disabled="disabled" checked="checked" />
+							</label>
+
+						{%endif%}
+					</td>
+				</tr>
+				<tr>
+					<td>Secteur d'activité: </td>
+					<td><strong>{{employeur.secteur}} </strong> </td>
+				</tr>
+				
+			</table>
+		{%else%}
+			<h6>Non renseigné</h6>
+		{%endif%}
+		<div class="row">
+			<h6 class="text-center">
+				<span class="titre">
+					{{"revenus et engagements"|upper}}
+				</span>
+			</h6>
+		</div>
+		{%if client.revenu is not null %}
+		<table>
+			<tr>
+				<td><strong>Salaire mensuel net réel :</strong> </td>
+				<td>{{client.revenu.rsmn}} </td>
+			</tr>
+		</table>
+		{%else%}
+			<h6 class="text-center">
+				Revenu non renseigné
+			</h6>
+		{%endif%}
+		{%set lesengagements = engagementsClient(client) %}
+		{%set engagements = lesengagements.engagements %}
+		{%if engagements|length > 0 %}
+			<table class="table table-condensed table-bordered">
+				<thead>
+					<th>Type de crédit</th>
+					<th>Montant</th>
+					<th>Durée</th>
+					<th>Mensualité</th>
+					<th>Date de déblocage</th>
+				</thead>
+				<tbody>
+					{%for eng in engagements%}
+						<tr>
+							<td>{{eng.tdc.nom}} </td>
+							<td>{{eng.montant}} </td>
+							<td>{{eng.duree}} </td>
+							<td>{{eng.mensualite}} </td>
+							<td>{{eng.datedeblocage|date('d/m/Y')}} </td>
+						</tr>
+
+					{%endfor%}
+				</tbody>
+			</table>
+		{%else%}
+			<h5 class="text-info text-center">
+				Aucun engagement
+			</h5>
+		{%endif%}
+		<div class="row">
+			<h6 class="text-center">
+				<span class="titre">
+					{{"garanties"|upper}}
+				</span>
+			</h6>
+		</div>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Garanties détenues</th>
+					<th>Nouvelles garanties proposées</th>
+				</tr>
+			</thead>
+			<tbody>
+				{%set garanties = garantiesJoinsDDC(ddc) %}
+				{%set gddcs = garanties.gddc%}
+				{%set fgddcs = garanties.fgddc%}
+				<tr>
+					<td>
+						{%if gddcs|length > 0 %}
+							{%for gddc in gddcs %}
+								<p>
+									{%if gddc.charge %}
+										<input type="checkbox" disabled="disabled" checked="checked" />
+									{%else%}
+										<input type="checkbox" disabled="disabled"/>
+									{%endif%}
+									<label>
+										{{gddc.nom}}
+									</label>
+								</p>
+							{%endfor%}
+						{%else%}
+							<div class="text-danger text-center">
+								La liste des garantites à fournir pour le type de crédit [{{ddc.tdc.nom}}] n'a pas été définie
+							</div>
+						{%endif%}
+					</td>
+					<td>
+						{%for fddc in fgddcs %}
+							{%if fddc.gddc is null %}
+								<p>
+									
+										{{fddc.fichier.nom}}
+										{{fddc.fichier.chemin}}
+									
+								</p>
+							{%endif%}
+						{%endfor%}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Documents joints au dossier</th>
+					<th>Documents à fournir par le client avant mise en place</th>
+				</tr>
+			</thead>
+			<tbody>
+				{%set docs = docJoinsDDC(ddc) %}
+				{%set docddcs = docs.docddc%}
+				{%set fddcs = docs.fddc%}
+				<tr>
+					<td>
+						{%if docddcs|length > 0 %}
+							{%for docddc in docddcs %}
+								<p>
+									{%if docddc.charge %}
+										<input type="checkbox" disabled="disabled" checked="checked" />
+									{%else%}
+										<input type="checkbox" disabled="disabled"/>
+									{%endif%}
+									<label>
+										{{docddc.nom}}
+									</label>
+								</p>
+							{%endfor%}
+						{%else%}
+							<div class="text-danger text-center">
+								La liste des documents à fournir pour le type de crédit [{{ddc.tdc.nom}}] n'a pas été définie
+							</div>
+						{%endif%}
+					</td>
+					<td>
+						{%for fddc in fddcs %}
+							{%if fddc.docddc is null %}
+								<p>
+									<a target="blank" href="{{asset(fddc.fichier.chemin)}}">
+										{{fddc.fichier.nom}}
+									</a>
+								</p>
+							{%endif%}
+						{%endfor%}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	{%else%}
+		L'identité du client n'a pas été renseignée
+	{%endif%}
+{%else%}
+	Ce dossier n'est associé à aucun client pour le moment
+{%endif%}
+</div>
+</div>

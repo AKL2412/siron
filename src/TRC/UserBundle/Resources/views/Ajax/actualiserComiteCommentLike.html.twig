@@ -1,0 +1,7 @@
+{%if objet == 'comite' %}
+{{render(controller('TRCUserBundle:Ajax:commentairesComite',{comite:comite}))}}
+{%elseif objet == 'reunion'%}
+{{render(controller('TRCUserBundle:Ajax:commentairesReunion',{reunion:reunion}))}}
+{%elseif objet == 'point'%}
+{{render(controller('TRCUserBundle:Ajax:commentairesPoint',{point:point}))}}
+{%endif%}

@@ -1,0 +1,7 @@
+trc_core_homepage:
+    path:     /
+    defaults: { _controller: TRCCoreBundle:Default:index }
+
+trc_core_societe:
+    path:     /societes
+    defaults: { _controller: TRCCoreBundle:Default:societe }

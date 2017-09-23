@@ -1,0 +1,23 @@
+{%extends 'TRCCoreBundle::Admin/index.html.twig'%}
+{%block title%}
+PROBA:{{entite.nom}}
+{%endblock%}
+
+{%block titre%}
+	{{parent()}}
+  <li class="active">
+  	<a href="{{url('trc_core_admin_entites',{code:entite.code})}} ">
+  		<i class="fa fa-angle-right"></i>
+        <i class="fa fa-legal"></i>
+  		Entité : {{entite.code}}
+  	</a>
+    
+  </li>
+{%endblock titre%}
+{%block content%}
+<div class="row">
+		<h2 class="text-center">
+			{{entite.nom}}
+		</h2>
+	</div>
+{%endblock%}

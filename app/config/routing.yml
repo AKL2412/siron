@@ -1,0 +1,16 @@
+trc_core:
+    resource: "@TRCCoreBundle/Resources/config/routing.yml"
+    prefix:   /
+
+trc_admin:
+    resource: "@TRCAdminBundle/Resources/config/routing.yml"
+    prefix:   /admin
+trc_user:
+    resource: "@TRCUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+    prefix:   /
+
+

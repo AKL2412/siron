@@ -1,0 +1,59 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+
+<div class="login-box" >
+  <div class="login-logo">
+    <img src="{{asset('img/demat.png')}} " width="250">
+    
+  </div>
+  <!-- /.login-logo -->
+  <div class="login-box-body" style="background:transparent">
+    <!-- <p class="login-box-msg">Authentification</p> -->
+
+    <form action="{{ path('fos_user_security_check') }}" method="post">
+      <div class="form-group has-feedback">
+        <input type="text" class="form-control" placeholder="Email" value="{{ last_username }}" name="_username"  required="required" id="username">
+        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input id="password"  value=""  class="form-control" placeholder="{{ 'security.login.password'|trans }}" type="password" id="password" name="_password" required="required">
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      <div class="row">
+        <div class="col-xs-8">
+          <div class="checkbox icheck">
+            <label>
+              <input id="Field" name="Field" type="checkbox" class="field login-checkbox" value="First Choice" tabindex="4" name="_remember_me" value="on" />
+              Remember Me
+            </label>
+          </div>
+        </div>
+        <!-- /.col -->
+        <div class="col-xs-4">
+           <button type="submit" id="_submit" name="_submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+        </div>
+      {% if error %}
+    
+      </div>
+      <div class="text-center text-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% endif %}
+    </form>
+
+    <!-- /.social-auth-links -->
+
+   <!--  <a href="#">I forgot my password</a><br>
+    <a href="register.html" class="text-center">Register a new membership</a> -->
+
+  </div>
+  <!-- /.login-box-body -->
+</div>
+<p class="login-box-msg">
+    <strong> &copy; AKL. 09-17 </strong>
+</p>
+
+
+
+{% endblock fos_user_content %}

@@ -1,0 +1,63 @@
+{%extends 'TRCCoreBundle::Admin/voirtype.html.twig'%}
+{%block title%}
+PROBA:{{macro.nom}}
+{%endblock%}
+
+
+{%block titre%}
+  {{parent()}}
+  <li class="">
+    <a href="{{url('trc_core_admin_type_macro',{macro:macro.code,type:macro.type.code})}} ">
+      <i class="fa fa-angle-right"></i>
+        <i class="fa fa-tags"></i>
+        {{macro.nom}}
+    </a>
+    
+  </li>
+{%endblock titre%}
+{%block content%}
+<div class="row">
+		<h2 class="text-center">
+			{{macro.nom}}
+		</h2>
+	</div>
+	<br>
+	<div class="row">
+		<div class="span7">
+          <div class="widget">
+            <div class="widget-header"> <i class="icon-bookmark"></i>
+              <h3>Les Processus [{{processus|length}}] </h3>
+            </div>
+            <!-- /widget-header -->
+            <div class="widget-content">
+              <div class="shortcuts"> 
+              	{%if processus|length > 0 %}
+              		{%for type in processus %}
+
+              			<a href="{{url('trc_core_admin_type_macro_proc',{type:macro.type.code,macro:macro.code,proc:type.code})}}" class="shortcut">
+			              
+			              <span class="shortcut-label">{{type.nom}} </span> 
+		              </a>
+              		{%endfor%}
+              	{%else%}
+              		<div class="alert alert-danger text-center">
+              			<h3>
+              				Aucun processus
+              			</h3>
+              		</div>
+              	{%endif%}
+              
+              
+              </div>
+              <!-- /shortcuts --> 
+            </div>
+            <!-- /widget-content --> 
+          </div>
+        
+        </div>
+        <div class="span4">
+        	<h4 class="text-center-">Ajout de processus</h4>
+        	{{form(form)}}
+        </div>
+	</div>
+{%endblock content%}

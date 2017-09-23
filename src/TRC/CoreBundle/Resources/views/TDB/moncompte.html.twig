@@ -1,0 +1,50 @@
+{%extends '::layout.html.twig'%}
+{%block title%}    
+	mon compte   
+{%endblock title%}
+{%block titre%}
+    
+{%endblock titre%}
+{%block position %}
+        {{parent()}}
+        <!-- <li class="active">
+    		<i class="fa fa-angle-right"></i>
+    		<i class="fa fa-user"></i>
+            <a href="#">
+            	Mon Compte
+            </a>
+        </li> -->
+{%endblock position%}
+{%block content %}
+	<div class="row">
+		<div class="span3">
+			&nbsp;
+		</div>
+		<div class="span6 ">
+			<div class="blocks">
+				<form method="post">
+					<h2 class="text-center">
+						Modifier le mot de passe
+					</h2>
+					<div class="form-group">
+						<label>
+							Nouveau mot de passe
+						</label>
+						<input type="password" name="cpassword" class="form-control span5">
+					</div>
+					<div class="form-group">
+						<label>
+							Confirmer le mot de passe
+						</label>
+						<input type="password" name="confpassword" class="form-control span5">
+					</div>
+					<div>
+						<button class="btn" type="submit">
+							Modifier
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{%endblock content %}

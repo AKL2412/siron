@@ -1,0 +1,137 @@
+{%extends '::layout.html.twig'%}
+{%block title%}   
+	Mes notifications    
+{%endblock title%}
+{%block titre%}
+    <i class="fa fa-bell fa-fw"></i>
+    Notifications
+{%endblock titre%}
+{%block position %}
+        
+{%endblock position%}
+{%block content %}
+ <div class="row">
+ 	{%if notification is null%}
+ 		<div class="col-md-6 col-md-offset-3">
+ 			<a href="{{url('trc_core_notifications_supprimer_toutes')}} " class="btn btn-xs btn-danger">
+ 				<i class="fa-trash fa"></i>
+ 				Supprimer toutes mes notifications
+ 			</a>
+ 			<a href="{{url('trc_core_notifications_marquer_lues')}} " class="btn btn-xs btn-primary">
+ 				<i class="fa-eye fa"></i>
+ 				Marquer toutes mes notifications comme lues
+ 			</a>
+ 			<br>
+ 			<div class="panel-default panel">
+ 				{%if notifications|length == 0 %}
+ 					<div class="panel-heading">
+ 						Vous n'avez pas de notifications
+ 					</div>
+ 				{%endif%}
+ 				<div class="panel-body">
+ 					<ul class="list-group">
+	 					{%for noti in notifications%}
+	 						
+	 						<li class="list-group-item default
+	 							{%if not noti.lu %}
+	 							non-lu
+	 							{%endif%}"
+	 						>
+	 						<a href="{{url('trc_core_notifications_voir_une',{idNotification:noti.id})}} ">
+	 							{{noti.titre}}
+	 						</a>
+	 							<a href="#" class="btn btn-xs  supprimer-objet pull-right" Objet="{{getClass(noti,true)}}" objetId="{{noti.id}}">
+					               <i class="fa-trash-o fa"></i> 
+					            </a>
+	 							<span class="pull-right badge">
+	 								{{noti.datenoti|date('d-m-Y H:i')}}
+	 								
+	 							</span>
+	 							{%if noti.alerte %}
+		 								<i class="fa-warning fa pull-right"></i>
+		 						{%endif%}
+
+	 						</li>
+	 						
+	 					{%endfor%}
+ 					</ul>
+ 				</div>
+ 				<div class="panel-footer">
+ 					{{ 
+ 					render(controller('TRCCoreBundle:Affichage:pagination',{pagination:pagination})) 
+ 					}}
+ 				</div>
+ 			</div>
+ 		</div>
+ 	{%else%}
+ 		<div class="col-md-4">
+ 			<div class="panel-default panel">
+ 				
+ 				<div class="panel-body">
+ 					<ul class="list-group">
+	 					{%for noti in notifications%}
+	 						<a href="{{url('trc_core_notifications_voir_une',{idNotification:noti.id})}} ">
+	 						<li class="list-group-item default
+	 							{%if not noti.lu %}
+	 							non-lu
+	 							{%endif%}
+	 							{%if noti == notification %}
+	 							active
+	 							{%endif%}"
+	 						>
+	 							{{noti.titre}}
+	 							<span class="pull-right badge">
+	 								{{noti.datenoti|date('d-m-Y H:i')}}
+	 								
+	 							</span>
+	 							{%if noti.alerte %}
+		 								<i class="fa-warning fa pull-right"></i>
+		 							{%endif%}
+	 						</li>
+	 						</a>
+	 					{%endfor%}
+ 					</ul>
+ 				</div>
+ 				<div class="panel-footer">
+ 					{{ 
+ 					render(controller('TRCCoreBundle:Affichage:pagination',{pagination:pagination})) 
+ 					}}
+ 				</div>
+ 			</div>
+ 		</div>
+ 		<div class="col-md-7">
+ 			<div class="blocks">
+ 			<u>
+ 			<h4>
+ 				{{notification.titre}}
+ 				{%if notification.alerte %}
+		 			<i class="fa-warning fa pull-right"></i>
+		 		{%endif%}
+ 				
+ 			</h4>
+ 			</u>
+ 			
+ 				<div >
+ 					{{notification.contenu|raw}}
+ 				</div>
+ 			
+ 			<em>
+ 				{{notification.datenoti|date('d-m-Y H:i')}}
+ 			</em>
+ 			<br>
+ 			<br>
+ 				<a href="#" class="supprimer-objet pull-right-" Objet="{{getClass(notification,true)}}" objetId="{{notification.id}}">
+               <i class="fa-trash-o fa"></i> 
+            </a>
+ 			
+ 			</div>
+ 		</div>
+ 	{%endif%}
+ </div>	
+{%endblock content %}
+{%block script %}
+
+<script type="text/javascript">
+	
+</script>
+{%endblock%}

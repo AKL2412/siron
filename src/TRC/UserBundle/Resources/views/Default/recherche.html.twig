@@ -1,0 +1,21 @@
+{%if procedures|length > 0 %}
+<h2>
+	{{procedures|length}} resultat(s)
+</h2>
+{%for pro in procedures %}
+	<a class="btn btn-xs btn-info" onclick="getProcedure('{{pro.code}}')">
+		{{pro.titre}}
+	</a>
+{%endfor%}
+{%else%}
+
+<div class="text-center">
+	<h2>
+		<i class="fa-search fa"></i>
+		{{q}} 
+	</h2>
+	<h1 class="text-danger">
+		Aucune procédure
+	</h1>
+</div>
+{%endif%}

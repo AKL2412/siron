@@ -1,0 +1,135 @@
+{%extends '::layout.html.twig'%}
+{%block title%}
+{{parent()}}
+| Les objets
+{%endblock%}
+{%block position %}
+          <li >
+          	<a href="{{url('trc_admin_objets')}} ">
+          		<i class="fa-cubes fa" ></i>
+          		Objets
+          	</a>
+          </li>
+{%endblock position%}
+{%block titrepage%}
+    Définition des objets
+{%endblock titrepage%}     
+{%block content%}
+<div class="row">
+	<div class="col-md-7">
+		{%if pagination.getTotalItemCount > 0 %}
+			<div class="box box-primary">
+				  <div class="box-header with-border">
+				    <h3 class="box-title">Les Objets</h3>
+
+				      <div class="box-tools pull-right">
+				        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+				      </button>
+				      <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+				      </div>
+				  </div>
+				           
+  <div class="box-body">
+  <div>
+			    <table class="table">
+			      <tr>
+			        <th></th>
+			        <th{% if pagination.isSorted('a.nom') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'nom', 'a.nom') }}</th>
+			        <th>Description</th>
+			      </tr>
+			        {% for a in pagination %}
+			          <tr {% if loop.index is odd %}class="color"{% endif %}>
+			          	<td>
+			          		{%if a.active %}
+			          			<a class="btn btn-success btn-xs" onclick="desActiveObjet(this,'{{a.id}}')">
+			          				<i class="fa-edit fa"></i>
+			          			</a>
+			          		{%else%}
+			          			<a class="btn btn-danger" onclick="desActiveObjet(this,'{{a.id}}')">
+			          				<i class="fa-edit fa"></i>
+			          			</a>
+			          		{%endif%}
+			          	</td>
+			            <td>
+			            	{%if a.parent is not null %}
+			            		{{a.parent.code}}
+			            	{%endif%}
+			              {{ a.code }}
+			            	
+			            </td>
+			            <td>
+			              <a href="{{url('trc_admin_objets_voir',{code:a.code})}} ">
+			              
+			              {{ a.nom }}
+			              </a>
+			              </td>
+			            <td>{{ a.description|striptags|slice(0,50) }}...</td>
+			          </tr>
+			        {% endfor %}
+			    </table>
+			    <div class="navigation">
+			      {{ knp_pagination_render(pagination) }}
+			    </div>
+  </div>
+			  <div class="box-footer text-center">
+			    {{ pagination.getTotalItemCount }} Objet(s) 
+			  </div>
+</div>
+  </div>  
+		{%else%}
+			<div class="callout callout-danger">
+                <h4>Aucun Objet ajouté</h4>
+
+                <p> Vous pouvez en ajouter en vous référant au formulaire juste à coté intitulé <em>Ajouter un Objet</em></p>
+                <p>
+                	Les objets sont des abstrations faites au niveau de démat. Dans ce sens que, l'objet représente l'entité(l'objet) qu'on veut dématérialiser. Ex : Dans le cadre de la dématérialisation de process de crédit, l'objet à paramétrer à ce niveau sera <u>Un dossier de crédit</u>; Et non les différents types de dossiers(Instance) d'un dossier de crédit.
+                </p>
+              </div>
+		{%endif%}
+	</div>
+	<div class="col-md-5">
+		 <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Ajouter un objet</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+          
+            {{form_start(form)}}
+       
+              <div class="box-body">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Nom</label>
+                      
+                      {{form_widget(form.nom,{'attr':{'class':'form-control'}})}}
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Code</label>
+                      {{form_widget(form.code,{'attr':{'class':'form-control'}})}}
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Objet parent</label>
+                      
+                      {{form_widget(form.parent,{'attr':{'class':'form-control select2'}})}}
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Description</label>
+                     {{form_widget(form.description,{'attr':{'class':'form-control textarea'}})}}
+                    </div>
+                </div>
+                
+              <!-- /.box-body -->
+
+              <div class="box-footer">
+                {{form_widget(form.save,{'attr':{'class':'btn btn-primary'}})}}
+              </div>
+           	{{form_end(form)}}
+          </div>
+	</div>
+</div>
+{%endblock content%}
+{%block script%}
+<script type="text/javascript">
+    activeLink("objets")
+</script>
+{%endblock script%}

@@ -1,0 +1,46 @@
+{%extends 'TRCAdminBundle::Core/scenario.html.twig'%}
+{%block title%}
+{{parent()}}
+| Test du scénario
+{%endblock%}
+{%block position %}
+	{{parent()}}
+          <li >
+          	<a href="{{url('trc_admin_tester_condition',{objet:objet.code,code:scenario.code})}} ">
+          		<i class="fa- fa-wrench fa" ></i>
+          		Test de scénario
+          	</a>
+          </li>
+{%endblock position%}
+{%block titrepage%}
+    Test du Scénario de <strong>
+      {{scenario.code}}
+    </strong>
+{%endblock titrepage%}     
+{%block content%}
+<div class="row">
+  <div class="col-md-7">
+    <div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">Entrez des valeurs pour les paramètres </h3>
+      </div>
+      <div class="box-body">
+        
+          {% set url = url('trc_admin_tester_condition',{objet:objet.code,code:scenario.code}) %}
+          {{render(controller('TRCCoreBundle:Affichage:formulaireTestScenario',{conditions:conditions,url: url,id:scenario.id}))}}
+          
+      </div>
+    </div>
+  </div>
+  <div class="col-md-5">
+    <div class="box box-danger">
+      <div class="box-header with-border">
+        <h3 class="box-title">Test </h3>
+      </div>
+      <div class="box-body">
+        <div id="blockTestCondition" style="min-height: 50px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock content%}

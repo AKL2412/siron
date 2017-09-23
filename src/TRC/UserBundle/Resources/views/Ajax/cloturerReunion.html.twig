@@ -1,0 +1,67 @@
+<div class="row">
+	<div class="col-md-12">
+          <!-- Widget: user widget style 1 -->
+          <div class="box box-widget widget-user">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header bg-aqua-active">
+              <h3 class="widget-user-username">
+              	{{reunion.titre}}
+              </h3>
+              <h5 class="widget-user-desc">
+              	{{reunion.code}}
+              </h5>
+            </div>
+            <div class="widget-user-image text-danger">
+            </div>
+            <div class="box-footer">
+              <div class="row">
+                {%for l,ch in chiffreReunion(reunion) %}
+		            <div class="col-sm-4 border-right">
+		                  <div class="description-block">
+		                    <h5 class="description-header">{{ch}}</h5>
+		                    <span class="description-text">{{l|upper}} </span>
+		                  </div>
+		                  <!-- /.description-block -->
+		            </div>
+		            {%endfor%}
+		            <div class="col-sm-4 border-right">
+		                  <div class="description-block">
+		                  	{%if reunion.pv is not null %}
+		                    <h5 class="description-header">
+		                    	<a href="{{asset(reunion.pv.path)}} " class="text-success" target="blank">
+				             		<i class="fa-file-pdf-o fa fa-1x"></i>
+				             	</a>
+		                    </h5>
+		                    <span class="description-text">{{"PV"|upper}} </span>
+		                    {%else%}
+		                    <h5 class="description-header">
+		                    	
+				             		<i class="fa-warning text-danger fa fa-1x"></i>
+				             
+		                    </h5>
+		                    <span class="description-text">{{"PV"|upper}} </span>
+		                    {%endif%}
+		                  </div>
+		                  <!-- /.description-block -->
+		            </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+            </div>
+          </div>
+          <!-- /.widget-user -->
+        </div>
+     <div class="col-md-12">
+    {%if reunion.pv is not null %}
+    	<button class="btn btn btn-success btn-xs" onclick="confirmerCloturerReunion('{{reunion.id}}')">
+    		<i class="fa-archive fa"></i>
+    		confirmer la cloture
+    	</button>
+    {%else%}
+    	<div class="alert alert-danger ">
+            <h4><i class="icon fa fa-ban"></i> Génération du pv</h4>
+                Vous devez générer le fichier du pv (pdf) avant clôture. Car après clôture cette action n'est plus possible
+        </div>
+    {%endif%}
+    </div>
+</div>

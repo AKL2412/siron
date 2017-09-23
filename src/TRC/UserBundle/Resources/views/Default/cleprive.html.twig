@@ -1,0 +1,62 @@
+{%extends '::layout.html.twig'%}
+{%block title%}
+{{parent()}}
+| Définition de clé privée
+{%endblock%}
+{%block position %}
+	{{parent()}}
+          <li >
+          	<a href="#">
+          		<i class="fa-key fa" ></i>
+          		Définition de clé privée
+          	</a>
+          </li>
+{%endblock position%}
+{%block titrepage%}
+    <i class="fa-key fa"></i>
+    Modification de clé privée
+{%endblock titrepage%}     
+{%block content%}
+<div class="row">
+	<div class="col-md-6 col-md-offset-3">
+		<div class="box box-danger">
+            <div class="box-header with-border">
+                  <h3 class="box-title">
+                  	Modification de clé privée
+                  </h3>
+            </div>
+            <form url="{{url('trc_core_cle_prive')}} " method="post" onsubmit="modificationClePrive(event,this)">
+	            <div class="box-body">
+	            	{%if param.cleprivee is not null %}
+	            		<div class="form-group">
+	            			<label>
+	            				Clé actuelle 
+	            			</label>
+	            			<input type="password" name="cleactuelle" class="form-control" required="required">
+	            		</div>
+	            	{%endif%}
+	            	<div class="form-group">
+	            		<label>
+	            			Nouvelle clé
+	            		</label>
+	            		<input type="password" name="clenouvelle" class="form-control" required="required">
+	            	</div>
+	            	<div class="form-group">
+	            		<label>
+	            			Nouvelle clé (Confirmation)
+	            		</label>
+	            		<input type="password" name="clenouvelleconfirmation" class="form-control" required="required">
+	            	</div>
+	            </div>
+	            <div class="box-footer">
+	            	<button class="btn btn-primary">
+	            		Modifier
+	            	</button>
+	            	<div id="message"></div>
+	            </div>
+
+            </form>
+        </div>
+	</div>
+</div>
+{%endblock content%}

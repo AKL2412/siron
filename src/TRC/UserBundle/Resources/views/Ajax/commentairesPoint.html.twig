@@ -1,0 +1,34 @@
+<div style="padding:2%">
+              {%if not jaimePoint(point,app.user)%}
+              <button type="button" class="btn btn-default btn-xs" onclick="likePoint(this,'{{point.id}}')"><i class="fa fa-thumbs-o-up" ></i> Like</button>
+              {%endif%}
+              	<span class="pull-right text-muted" >{{likes}} like(s) -  {{comments|length}} commentaire(s)</span>
+              
+              
+              </div>
+{%for c in comments %}
+  {%set u = getEmploye(c.auteur) %}
+  {%if u is not null %}
+    <div class="box-comment">
+      <img class="img-circle img-sm" src="{{asset(u.image)}}" alt="User Image">
+        <div class="comment-text">
+                      <span class="username">
+                        {{u.prenom}} {{u.nom|upper}}
+                        <span class="text-muted pull-right"><i class="fa-clock-o fa"></i> {{dureeLitterale(c.at)}} </span>
+                      </span><!-- /.username -->
+                  {%if supprimerCommentaire(c,app.user) %}
+                    <a class="btn text-danger pull-right" onclick="deleteComment('{{c.id}}')">
+                      <i class="fa-trash fa"></i>
+                    </a>
+                  {%endif%}
+                  {{c.message}}
+                </div>
+                <!-- /.comment-text -->
+              </div>
+
+  {%endif%}
+
+{%endfor%}
+              
+      
+          

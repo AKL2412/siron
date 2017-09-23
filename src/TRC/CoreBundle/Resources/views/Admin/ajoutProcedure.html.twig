@@ -1,0 +1,153 @@
+{%extends 'TRCCoreBundle::Admin/index.html.twig'%}
+{%block title%}
+PROBA:Ajout de procédure
+{%endblock%}
+
+{%block titre%}
+	{{parent()}}
+  <li class="active">
+  	<a href="{{url('trc_core_admin_ajouter_procedure')}} ">
+  		<i class="fa fa-angle-right"></i>
+  		{%if procedure.id is null %}
+        <i class="fa fa-plus-square"></i>
+  		Ajout de procédure
+  		{%else%}
+  		<i class="fa fa-edit"></i>
+  			Modification :: {{procedure.titre}}
+  		{%endif%}
+  	</a>
+    
+  </li>
+{%endblock titre%}
+{%block content%}
+	<div class="row">
+		<div class="container">
+		<div class="widget">
+            <div class="widget-header">
+              <h3>
+              	{%if procedure.id is null %}
+			        <i class="fa fa-plus-square"></i>
+			  		Ajout de procédure
+			  		{%else%}
+			  		<i class="fa fa-edit"></i>
+			  			Modification :: {{procedure.titre}}
+			  	{%endif%}
+
+              </h3>
+            </div>
+            <!-- /widget-header -->
+            <div class="widget-content">
+				{{form_start(form,{'attr':{'enctype':"multipart/form-data"}})}}
+				<div class="span5">
+					<h3>
+						{{'Détails'|upper}}
+					</h3>
+					<div class="form-group">
+						<label>
+							{{'Titre'|upper}}
+						</label>
+						{{form_widget(form.titre,{'attr':{'class':'span5','placeholder':'Titre de la procédure'}})}}
+					</div>
+					<div class="form-group">
+						<label>
+							{{'références réglementaires'|upper}}
+						</label>
+						{{form_widget(form.reference,{'attr':{'class':'span5','rows':'15','placeholder':'références réglementaires de la procédure'}})}}
+					</div>
+					<div class="form-group">
+						<label>
+							{{'Date de mise en application'|upper}}
+						</label>
+						{{form_widget(form.dateapplication,{'attr':{'class':'span5','placeholder':'Date de mise en application de la procédure'}})}}
+					</div>
+				</div>
+				<div class="span6">
+					<h3>
+						{{"suivi du document"|upper}}
+					</h3>
+					<div class="form-group">
+						<label>
+							{{'code'|upper}}
+						</label>
+						{{form_widget(form.code,{'attr':{'class':'span5','placeholder':'code de la procédure'}})}}
+					</div>
+					<div class="form-group">
+						<label>
+							{{'numéro de version'|upper}}
+						</label>
+						{{form_widget(form.numeroversion,{'attr':{'class':'span5','placeholder':'numéro de version de la procédure'}})}}
+					</div>
+					<div class="form-group">
+						<label>
+							{{'entité propriétaire'|upper}}
+						</label>
+						{{form_widget(form.proprietaire,{'attr':{'class':'span5','placeholder':'entité propriétaire de la procédure'}})}}
+					</div>
+					<div class="form-group">
+						<label>
+							{{'rédigée par / revue par '|upper}}
+						</label>
+						{{form_widget(form.rediger,{'attr':{'class':'span5','rows':'2','placeholder':'rédigée par / revue par '}})}}
+					</div>
+					<div class="form-group">
+						<label>
+							{{'vérifiée par '|upper}}
+						</label>
+						{{form_widget(form.verifier,{'attr':{'class':'span5','rows':'2','placeholder':'vérifiée par '}})}}
+					</div>
+					<div class="form-group">
+						<label>
+							{{'validée par '|upper}}
+						</label>
+						{{form_widget(form.valider,{'attr':{'class':'span5','rows':'2','placeholder':'validée par '}})}}
+					</div>
+					<div class="form-group">
+						<label>
+							{{'statut'|upper}}
+						</label>
+						{{form_widget(form.statut,{'attr':{'class':'span5'}})}}
+					</div>
+				</div>
+				<br>
+				<div class="row-">
+					
+					<div class="span5">
+						<h3>
+							{{'diffusion'|upper}}
+						</h3>
+						<div class="form-group">
+							<label>
+								{{'entités concernées'|upper}}
+							</label>
+							{{form_widget(form.entiteconcernes,{'attr':{'class':'span5','rows':'7'}})}}
+						</div>
+						<div class="form-group">
+							<label>
+								{{'les sous-processus concernés'|upper}}
+							</label>
+							{{form_widget(form.sousprocessus,{'attr':{'class':'span5','rows':'5'}})}}
+						</div>
+					</div>
+					<div class="span6">
+						<h3>
+							{{'Ajout de fichier'|upper}}
+						</h3>
+						<div class="form-group">
+							<label>
+								Associer le fichier
+							</label>
+							{{form_widget(form.fichier)}}
+						</div>
+					</div>
+				</div>
+				<br>
+				<div class="span12">
+					{{form_widget(form.save)}}
+				</div>
+				{{form_end(form)}}
+			</div>
+		</div>
+		</div>
+	</div>
+
+{%endblock content%}

@@ -1,0 +1,52 @@
+{%if traces|length > 0 %}
+ <ul class="timeline">
+		            	{%set laDate = "" %}
+		            	{%for j,e in traces %}
+		            		
+		            		{%set d = e.at|date('d-m-Y')%}
+		            		{%if d != laDate %}
+		            			<li class="time-label">
+					                  <span class="bg-red">
+					                    {{d}}
+					                  </span>
+					            </li>
+					            {%set laDate = d %}
+		            		{%endif%}
+		            		 <li>
+						              <!-- <i class="badge ">
+					                					{{e.id}}
+					                	</i> -->
+					                	<i class="{{e.icon}} "></i>
+						              <div class="timeline-item">
+						                <span class="time"><i class="fa fa-clock-o"></i> {{e.at|date('H:i')}}</span>
+
+						                <h3 class="timeline-header">
+						                <a href="#">{{e.action}}</a> </h3>
+
+						                <div class="timeline-body">
+						                 {{e.description|raw}}
+						                </div>
+						                <div class="timeline-footer">
+						                	<small>
+						                		<strong>
+						                			{{e.nom}}
+						                		</strong>
+						                	</small>
+						                </div>
+						              </div>
+						            </li>
+
+		            	{%endfor%}
+			            
+			          
+			            <li>
+			             
+			              <span class="label label-default">
+			               <i class="fa fa-clock-o"></i>
+			              	
+			              </span>
+			            </li>
+		          </ul>
+        
+
+{%endif%}

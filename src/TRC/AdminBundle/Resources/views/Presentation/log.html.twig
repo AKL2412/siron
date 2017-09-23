@@ -1,0 +1,42 @@
+{%if pagination.getTotalItemCount > 0 %}
+<table class="table table-condensed table-bordered">
+	<thead>
+		<th>Du</th>
+		<th>Au</th>
+		<th>
+			Depuis
+		</th>
+		<th></th>
+	</thead>
+	<tbody>
+		{%for track in pagination %}
+			<tr>
+				<td>
+					{{track.logInAt|date('d/m/Y H:i')}}
+				</td>
+				<td>
+					{%if track.logOutAt is not null%}
+					{{track.logOutAt|date('d/m/Y H:i')}}
+					{%endif%}
+				</td>
+				<td>
+					{{track.useragent|slice(0,20)}}...
+				</td>
+				<td>
+					{{track.details}}
+				</td>
+			</tr>
+		{%endfor%}
+	</tbody>
+	<div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+</table>
+{%else%}
+<div class="callout callout-danger">
+    <h4>Aucun Log!</h4>
+	<p>
+		Pas de connexion à démat
+    </p>
+</div>
+{%endif%}

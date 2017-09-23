@@ -1,0 +1,90 @@
+<?php
+
+namespace TRC\UserBundle\Entity;
+
+use FOS\UserBundle\Model\User as BaseUser;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="compte")
+ */
+class User extends BaseUser  
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="intitule", type="string",length = 255,nullable=true)
+     */
+    protected $intitule;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="image", type="string",length = 255,nullable=true)
+     */
+    protected $image;
+
+    public function __construct()
+    {
+        parent::__construct();
+        // your own logic
+    }
+
+   
+
+
+    /**
+     * Set intitule
+     *
+     * @param string $intitule
+     *
+     * @return User
+     */
+    public function setIntitule($intitule)
+    {
+        $this->intitule = $intitule;
+
+        return $this;
+    }
+
+    /**
+     * Get intitule
+     *
+     * @return string
+     */
+    public function getIntitule()
+    {
+        return $this->intitule;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     *
+     * @return User
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+}

@@ -1,0 +1,66 @@
+<div class="row- main-">
+		<div class="col-md-11 col-md-offset-1 col-sm-12 col-xs-12">
+			<nav>
+			  <ul class="pagination pagination-md">
+			  	{%if pagination.page > 1 %}
+			  		<li>
+			  			{%if ajax %}
+			  				<a url="{{pagination.url}}?p={{pagination.page-1}}{{pagination.extension}}" aria-label="Previous" class="pagination-ajax"
+			  				onclick="nextPage(this,'{{containerId}}')" 
+			  				>
+						        <span aria-hidden="true">&laquo;</span>
+						     </a>
+			  			{%else%}
+					      <a href="{{pagination.url}}?p={{pagination.page-1}}{{pagination.extension}}" aria-label="Previous">
+					        <span aria-hidden="true">&laquo;</span>
+					      </a>
+				      	{%endif%}
+				    </li>
+				{%endif%}
+				{%set last = pagination.page %}
+
+				{%for p in pagination.pagination%}
+				  	{%set l ="" %}
+				  		{%if p.libelle == pagination.page %}
+				  			{%set l ="active" %}
+				  		{%endif%}
+				  		<li class="{{l}}">
+
+				  			{%if ajax %}
+			  				<a url="{{p.url}}"  class="pagination-ajax"
+			  				onclick="nextPage(this,'{{containerId}}')" 
+			  				>
+						       {{p.libelle}}
+						     </a>
+			  			{%else%}
+					      <a href="{{p.url}} ">{{p.libelle}} </a>
+				      	{%endif%}
+				  			
+
+				  		</li>
+				  		{%if p.libelle != '...' and p.libelle != pagination.last%}
+				  		{%set last = p.libelle%}
+				  		{%endif%}
+				  	{%endfor%}
+				  	
+				  	{%if last < pagination.last and pagination.last != pagination.page %}
+				  		<li>
+				  			{%if ajax %}
+				  				<a url="{{pagination.url}}?p={{pagination.page+1}}{{pagination.extension}}" aria-label="Next" class="pagination-ajax"
+				  				onclick="nextPage(this,'{{containerId}}')" 
+				  				>
+							        <span aria-hidden="true">&raquo;</span>
+							     </a>
+				  			{%else%}
+						      <a href="{{pagination.url}}?p={{pagination.page+1}}{{pagination.extension}}" aria-label="Next">
+							        <span aria-hidden="true">&raquo;</span> 
+							      </a>
+					      	{%endif%}
+						      
+				    	</li>
+				  	{%endif%}
+			  </ul>
+			</nav>
+		</div>
+		
+	</div>

@@ -1,0 +1,21 @@
+{%extends '::layout.html.twig'%}
+{%block title%}       
+{%endblock title%}
+{%block titre%}
+    
+{%endblock titre%}
+{%block position %}
+        
+{%endblock position%}
+{%block content %}
+ 
+
+				{% for message in app.session.flashbag.get('erreur') %}
+				<p class="alert span6 alert-danger alert-block" style="text-align:center;margin-left:auto;margin-right:auto" > 
+				
+				{{ message }}
+
+				</p>
+				{% endfor %}
+		
+{%endblock content %}

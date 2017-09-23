@@ -1,0 +1,23 @@
+{%extends 'layout.html.twig'%}
+{% block title %}
+ABY JUNIOR
+{% endblock %}
+
+ {%block titrepage%}
+ {{ status_code }} Error Page 
+ {%endblock titrepage%}
+{%block position %}
+	{{parent()}}
+    <li class="active">{{ status_code }} error</li>
+{%endblock%}
+{%block avancement%}
+{%endblock avancement%}
+{%block content%}
+<div class="row">
+	<div class="span2">&nbsp;</div>
+    <div class="span8 ">
+            {% block body %}{% endblock %}
+      
+    </div>
+</div>
+{%endblock%}

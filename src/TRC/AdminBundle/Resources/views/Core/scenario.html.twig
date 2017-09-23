@@ -1,0 +1,171 @@
+{%extends 'TRCAdminBundle::Core/process.html.twig'%}
+{%block title%}
+{{parent()}}
+| Scénario
+{%endblock%}
+{%block position %}
+	{{parent()}}
+          <li >
+          	<a href="{{url('trc_admin_process_scenario',{objet:objet.code,code:scenario.code})}} ">
+          		<i class="fa- fa-gear fa" ></i>
+          		{{scenario.code}}
+          	</a>
+          </li>
+{%endblock position%}
+{%block titrepage%}
+    Scénarion de <strong>
+      {{scenario.code}}
+    </strong>
+{%endblock titrepage%}     
+{%block content%}
+
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="box box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">Scénario #{{scenario.code}} 
+        
+        </h3>
+        <a href="{{url('trc_admin_tester_condition',{code:scenario.code,objet:objet.code})}}"  class="pull-right">
+          Tester le scénario
+        </a>
+      </div>
+      <div class="box-body">
+      <table class="table table-condensed table-bordered">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Exécuteur(s)</th>
+            <th>Réceptionnaire(s)</th>
+            <th>Décision(s)</th>
+            <th>Instance(s)</th>
+            <th>Etat</th>
+            <th>Message</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              {{scenario.nom}}
+            </td>
+            <td>
+              {%for ins in scenario.executeurs %}
+                <p>
+                  {{ins.code}}
+                </p>
+              {%endfor%}
+            </td>
+            <td>
+              {%for ins in scenario.receptionnaires %}
+                <p>
+                  {{ins.code}}
+                </p>
+              {%endfor%}
+            </td>
+            <td>
+              {%for ins in scenario.decisions %}
+                <p>
+                  {{ins.code}}
+                </p>
+              {%endfor%}
+            </td>
+            <td>
+              {%for ins in scenario.instances %}
+                <p>
+                  {{ins.code}}
+                </p>
+              {%endfor%}
+            </td>
+            <td>
+              {%if scenario.instruction %}
+                INSTRUC
+              {%elseif scenario.finalisation %}
+                FIN
+              {%else%}
+                INTER
+              {%endif%}
+            </td>
+            <td>
+              {{scenario.message|raw}}
+            </td>
+            <td>{{scenario.description|raw}}</td>
+          </tr>
+        </tbody>
+    </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-7">
+    <div class="box box-default">
+      <div class="box-header with-border">
+        <h3 class="box-title">Condition(s) du Scénario #{{scenario.code}} ({{pagination.getTotalItemCount}}) </h3>
+      </div>
+      <div class="box-body">
+          <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Paramètre(s)</th>
+                <th>Expressions </th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for cond in pagination %}
+                <tr>
+                  <td>
+                    <a class="btn btn-danger btn-xs" onclick="supprimerCondition('{{cond.id}}') ">
+                      <i class="fa-trash fa"></i>
+                    </a>
+                  </td>
+                  <td>
+                    {%for p in cond.paramtre %}
+                      <p>{{p.nom}} </p>
+                    {%endfor%}
+                  </td>
+                  <td>
+                    {{cond.expression}}
+                  </td>
+                </tr>
+              {%endfor%}
+            </tbody>
+          </table>
+          <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-5">
+    <div class="box box-warning">
+      <div class="box-header with-border">
+        <h3 class="box-title">Ajouter une condition </h3>
+      </div>
+      <div class="box-body">
+          {{form_start(form)}}
+            <div class="form-group">
+              <label>
+                Les paramètres concernés
+              </label>
+              {{form_widget(form.paramtre,{'attr':{'class':'select2 form-control'}})}}
+            </div>
+            <div class="form-group">
+              <label>
+                Une expression
+              </label>
+              {{form_widget(form.expression,{'attr':{'class':'textarea- form-control'}})}}
+              <small>
+                Expression : <= 30000 <br>
+                S'assurer du type du ou des paramètres sélectionnés et l'expression saisie
+              </small>
+            </div>
+          {{form_end(form)}}
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock content%}

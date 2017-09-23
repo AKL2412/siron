@@ -1,0 +1,230 @@
+ <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Create the tabs -->
+    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+      <li class="active"><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+      <li><a href="#control-sidebar-users-tab" data-toggle="tab"><i class="fa fa-users"></i></a></li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <!-- Home tab content -->
+      <div class="tab-pane active" id="control-sidebar-home-tab">
+        <h5 class="control-sidebar-heading text-center">
+          <img src="{{asset('img/demat.png')}} " height="80">
+         
+        </h5>
+        <span class="menu-info">
+          
+          <small>
+            <u>démat</u> est une solution de gestion en workflow de tout process dématérialisable.
+          </small>
+        </span>
+        <ul class="control-sidebar-menu">
+          <li>
+            <a href="javascript:void(0)">
+              <i class="menu-icon fa fa-bank bg-maroon"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">BASEN</h4>
+
+                <p>Services (Sous services)</p>
+                <p>Fonctions</p>
+                </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <i class="menu-icon fa fa-book bg-red"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Les Objets</h4>
+                <p>Définition et sous objets</p>
+                <p>Types</p>
+                <p>Documentation (fichiers)</p>
+                <p>Paramètres (les attributs)</p>
+                <p>Désicions</p>
+                <p>Process</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <i class="menu-icon fa fa-tags bg-blue"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Les démats</h4>
+
+                <p>Création</p>
+                <p>Renseignement des paramètres</p>
+                <p>Chargement de la documentation</p>
+                <p>Modification de la démat</p>
+                <p>Suppression de fichier</p>
+                
+                </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <i class="menu-icon fa fa-legal bg-green"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Prise de décision</h4>
+
+                <p>Démat</p>
+                <p>Décision</p>
+                <p>Commentaire de décision</p>
+                <p>Fichier de Commentaire de décision</p>
+                <p>Certification de décision</p>
+                </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <i class="menu-icon fa fa-line-chart bg-yellow"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Statistique</h4>
+                <p>Démat par utilisateur</p>
+                <p>Démat par par décision</p>
+                <p>Démat par entité</p>
+                <p>Démat par entité et sous entités</p>
+                </div>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)">
+              <i class="menu-icon fa fa-cloud-download bg-navy"></i>
+
+              <div class="menu-info">
+                <h4 class="control-sidebar-subheading">Générer des documents</h4>
+                <p>
+                  <i class="fa-file-pdf-o fa"></i>
+                  Résumé d'une démat
+                </p>
+                <p>
+                  <i class="fa-file-excel-o fa"></i>
+                  la liste de démat d'un objet/statut
+                </p>
+                </div>
+            </a>
+          </li>
+           
+        </ul> 
+
+      </div>
+      <!-- /.tab-pane -->
+
+      <!-- Settings tab content -->
+      <div class="tab-pane" id="control-sidebar-settings-tab">
+        <form method="post">
+          <h3 class="control-sidebar-heading">Paramétrages</h3>
+
+
+          <div class="form-group">
+          <a href="{{url('trc_core_cle_prive')}} ">
+            <label class="control-sidebar-subheading">
+              <i class="fa-key fa"></i> Modifier ma clé privée
+             
+            </label>
+            </a>
+          </div>
+
+
+          <div class="form-group">
+            <label class="control-sidebar-subheading">
+              Supprimer mes notifications
+              <a href="javascript:void(0)" class="text-red pull-right" onclick="supprimerMesNotifications()"><i class="fa fa-trash-o"></i></a>
+            </label>
+          </div>
+          <h4>
+            Quand je suis connecté(e)
+          </h4>
+          <div class="form-group">
+            <label class="control-sidebar-subheading-">
+              Me rendre disponible
+            <select onchange="majReglage('online')">
+                
+                <option>Non</option>
+                <option {%if moi.param.online %} selected="selected" {%endif%}>Oui</option>
+              </select>
+              </label>
+          </div>
+          <h4>
+            Transmission de démat
+          </h4>
+          <div class="form-group">
+            <label class="control-sidebar-subheading-">
+              Me notifier par SMS
+              
+            
+            <select onchange="majReglage('sms')">
+                <option>Non</option>
+                <option {%if moi.param.sms %} selected="selected" {%endif%}>Oui</option>
+              </select>
+              </label>
+          </div>
+          <div class="form-group">
+            <label class="control-sidebar-subheading-">
+              Me notifier par mail
+              
+            
+            <select onchange="majReglage('mail')">
+                <option>Non</option>
+                <option {%if moi.param.mail %} selected="selected" {%endif%}>Oui</option>
+              </select>
+              </label>
+          </div>
+
+          {%if moi.signature is null %}
+            <div class="form-group text-danger">
+              <label class="control-sidebar-subheading">
+                <i class="fa-warning fa"></i>
+                Veuillez envoyer votre signature à l'administrateur. (Fichier image)
+              </label>
+            </div>
+          {%else%}
+            <div class="form-group">
+              <img src="{{asset(moi.signature.path)}} " style="max-width: 80%">
+            </div>
+          {%endif%}
+          <!-- /.form-group -->
+        </form>
+      </div>
+      <div class="tab-pane" id="control-sidebar-users-tab">
+        <h5>
+          Les utilisateurs en ligne
+        </h5>
+         <ul class="control-sidebar-menu">
+          {%for user in onlines %}
+          {%if user.user != app.user %}
+            {%set em = getEmploye(user.user) %}
+            {%if em is not null and em.param.online %}
+                <li>
+                  <a href="javascript:void(0)" send="{{user.user.id}}"  onclick="readSMS(this)">
+                    <img src="{{asset(em.image)}} " class="img-circle pull-left" height="40">
+
+                    <div class="menu-info">
+                      <h4 class="control-sidebar-subheading">
+                        {{em.prenom}}
+                        {%if user.online %}
+                          <i class="fa fa-circle text-success"></i>
+                        {%endif%}
+                      </h4>
+                    </div>
+                  </a>
+                </li>
+
+            {%endif%}
+            {%endif%}
+          {%endfor%}
+          
+          </ul>
+      </div>
+      <!-- /.tab-pane -->
+    </div>
+  </aside>
+  <!-- /.control-sidebar -->
+  <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+  <div class="control-sidebar-bg"></div>

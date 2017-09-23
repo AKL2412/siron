@@ -1,0 +1,91 @@
+{%if rubrique == 'mesSMS' %}
+
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-envelope-o"></i>
+               {%if nbreNonLus > 0 %}
+                  <span class="label label-danger">
+               
+                    {{nbreNonLus}}
+                
+              </span>
+              {%endif%}
+            </a>
+            <ul class="dropdown-menu">
+              {%if nbreNonLus > 0 %}
+                <li class="header">Vous avez {{nbreNonLus}} message(s)</li>
+              {%endif%}
+             
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                {%for d in datas %}
+                  {%set s = d.s %}
+                  {%set uti = getEmploye(s.send) %}
+                  {%if uti is not null %}
+                  <li><!-- start message -->
+                    <a {%if not s.lu %} class="bg-info" {%endif%}  href="#" send="{{s.send.id}}" onclick="readSMS(this)">
+                      <div class="pull-left">
+                        <img src="{{asset(uti.image)}} " class="img-circle" alt="User Image">
+                      </div>
+                      <h4>
+                        {{uti.prenom}} 
+                        <small><i class="fa fa-clock-o"></i> 
+                        {{dureeLitterale(s.at)}}
+                        </small>
+                      </h4>
+                      <p>
+                        {%if s.contenu|length > 32 %}
+                          {{s.contenu|slice(0,32)}}...
+                        {%else%}
+                          {{s.contenu}}
+                        {%endif%}
+                      </p>
+                    </a>
+                  </li>
+                  {%endif%}
+                {%endfor%}
+                 
+                </ul>
+              </li>
+              <li class="footer"><a href="#">See All Messages</a></li>
+            </ul>
+ 
+
+{%else%}
+
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-bell-o"></i>
+              
+                {%if nbreNonLus > 0 %}
+                  <span class="label label-warning">
+                    {{nbreNonLus}}
+                  </span>
+                {%endif%}
+              
+            </a>
+            <ul class="dropdown-menu">
+              {%if nbreNonLus > 0 %}
+                <li class="header">Vous avez  {{nbreNonLus}} notification(s)</li>
+              {%endif%}
+              
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                  {%for n in datas %}
+                    <li>
+                      <a {%if not n.lu %} class="bg-info" {%endif%}  href="#" onclick="readNotification(this,'{{n.id}}')">
+                        {%if n.lu %}
+                        <i class="fa fa-envelope-o"></i> 
+                        {%else%}
+                          <i class="fa fa-envelope"></i> 
+                        {%endif%}
+                        {{n.titre}}
+                      </a>
+                    </li>
+                  {%endfor%}
+                </ul>
+              </li>
+              <li class="footer"><a href="#">View all</a></li>
+            </ul>
+         
+{%endif%}

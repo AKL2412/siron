@@ -1,0 +1,75 @@
+{%extends '::layout.html.twig'%}
+{%block title%}
+{{parent()}}
+| Employés
+{%endblock%}
+{%block position %}
+  {{parent()}}
+          <li >
+          	<a href="{{url('trc_admin_utilisateurs')}} ">
+              <i class="fa-users fa"></i>
+          		Employés
+          	</a>
+          </li>
+{%endblock position%}
+{%block titrepage%}
+    Employés 
+{%endblock titrepage%}
+ {%block avancement%}     
+ {%endblock avancement%}     
+{%block content%}
+  <div class="row">
+  <div class="col-lg-10 col-lg-offset-1">
+    <div class="box box-success">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Les Employés</h3>
+
+                  <div class="box-tools pull-right">
+                    <span class="label label-danger">{{pagination.getTotalItemCount}} Employés(s)</span>
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    
+                  </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body no-padding">
+                  <ul class="users-list clearfix">
+                    {%for e in pagination %}
+                      <li>
+                        <img src="{{asset(e.image)}} " alt="User Image" style="height:90px" >
+                        <a class="users-list-name" href="{{url('trc_admin_utilisateurs_voir',{id:e.id})}}">
+                          {{e.prenom}} {{e.nom|upper}}
+                        </a>
+                        <span class="users-list-date">
+                          {{e.code}}
+                        </span>
+                      </li>
+                    {%endfor%}
+                    
+                    
+                  </ul>
+                  <!-- /.users-list -->
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer text-center">
+                  <div class="navigation">
+                    {{ knp_pagination_render(pagination) }}
+                  </div>
+                  <a href="javascript:void(0)" class="uppercase">
+                 
+                  </a>
+                  <a href="{{url('trc_admin_ajoututil')}} " class="pull-left">
+                    <i class="fa-plus fa"></i>
+                    Ajouter
+                  </a>
+                </div>
+                <!-- /.box-footer -->
+    </div>
+    </div>
+  </div>
+{%endblock%}
+{%block script%}
+<script type="text/javascript">
+    activeLink("utilisateurs")
+</script>
+{%endblock script%}

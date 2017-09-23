@@ -1,0 +1,19 @@
+trc_sdc_home:
+    path:     /user
+    defaults: { _controller: TRCUserBundle:Default:index }
+trc_core_logout:
+    path:     /deconnexion
+    defaults: { _controller: TRCCoreBundle:Default:logout }
+trc_sdc_ajax:
+    path:     /ajax/traitement
+    defaults: { _controller: TRCUserBundle:Ajax:index }
+
+trc_test_angular:
+    path:     /dashboard
+    defaults: { _controller: TRCUserBundle:Test:dashboard }
+
+trc_core_cle_prive:
+    path:     /modifier-ma-cle-privee
+    defaults: { _controller: TRCUserBundle:Default:cleprive }
+
+
