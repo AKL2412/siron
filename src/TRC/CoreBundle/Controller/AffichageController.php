@@ -10,19 +10,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 class AffichageController extends Controller
 {
-    public function phaseetatDDCAction(\TRC\CoreBundle\Entity\DDC\DDC $ddc){
-        return $this->render('TRCCoreBundle:Affichage:phaseetatDDC.html.twig',
-            array("ddc"=>$ddc));
-    }
+    
 
-    public function presentEmployeAction(\TRC\CoreBundle\Entity\Utilisateur $employe,$recherche = null){
+    public function presentEmployeAction(\TRC\CoreBundle\Entity\Agent $employe,$recherche = null){
         $gu = $this->get('trc_core.gu');
         $poste = $gu->getMonPoste($employe);
         return $this->render('TRCCoreBundle:Presentation:presentEmploye.html.twig',
             array("employe"=>$employe,'poste'=>$poste,'recherche'=>$recherche));
     }
 
-    public function presentServiceAction(\TRC\CoreBundle\Entity\Service $service,$recherche = null){
+    public function presentServiceAction(\TRC\CoreBundle\Entity\Entite $service,$recherche = null){
         $em = $this->get('doctrine')->getManager();
         $gu = $this->get('trc_core.gu');
         $sousentites = count($em->getRepository('TRCCoreBundle:Service')
@@ -77,7 +74,7 @@ class AffichageController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $utilisateur = $em->getRepository('TRCCoreBundle:Utilisateur')
+        $utilisateur = $em->getRepository('TRCCoreBundle:Agent')
                         ->findOneByCompte($user);
         
         return $this->render('TRCCoreBundle:Affichage:connecte.html.twig',
@@ -89,16 +86,7 @@ class AffichageController extends Controller
         return $this->render('TRCCoreBundle:Affichage:formulaireTestScenario.html.twig',
             array('conditions'=>$conditions,'url'=>$url,'id'=>$id));
     }
-    public function inputParametreAction(\TRC\CoreBundle\Entity\Objet\Parametre $parametre,\TRC\CoreBundle\Entity\Core\Condition $condition = null)
-    {
-        
-        $cond = 0;
-        if(!is_null($condition))
-            $cond = $condition->getId();
-        
-        return $this->render('TRCCoreBundle:Affichage:inputParametre.html.twig',
-            array('parametre'=>$parametre,'cond'=>$cond));
-    }
+   
 
     public function inputParametre2Action(\TRC\CoreBundle\Entity\Demat\DematParametreValeur $parametre)
     {
@@ -114,7 +102,7 @@ class AffichageController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $utilisateur = $em->getRepository('TRCCoreBundle:Utilisateur')
+        $utilisateur = $em->getRepository('TRCCoreBundle:Agent')
                         ->findOneByCompte($user);
         
         return $this->render('TRCCoreBundle:Affichage:connectetop.html.twig',
