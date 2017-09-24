@@ -41,6 +41,13 @@ class StatutAlerte
      */
     private $defaut;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="cloture", type="boolean")
+     */
+    private $cloture;
+
     public function __construct($defaut = false){
         $this->defaut = $defaut;
     }
@@ -101,5 +108,52 @@ class StatutAlerte
     {
         return $this->code;
     }
-}
 
+    /**
+     * Set defaut
+     *
+     * @param boolean $defaut
+     *
+     * @return StatutAlerte
+     */
+    public function setDefaut($defaut)
+    {
+        $this->defaut = $defaut;
+
+        return $this;
+    }
+
+    /**
+     * Get defaut
+     *
+     * @return boolean
+     */
+    public function getDefaut()
+    {
+        return $this->defaut;
+    }
+
+    /**
+     * Set cloture
+     *
+     * @param boolean $cloture
+     *
+     * @return StatutAlerte
+     */
+    public function setCloture($cloture)
+    {
+        $this->cloture = $cloture;
+
+        return $this;
+    }
+
+    /**
+     * Get cloture
+     *
+     * @return boolean
+     */
+    public function getCloture()
+    {
+        return $this->cloture;
+    }
+}

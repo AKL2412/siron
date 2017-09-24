@@ -61,10 +61,11 @@ class Statut
         return $this->id;
     }
 
-    public function __construct(\TRC\CoreBundle\Entity\Agent $agent,\TRC\CoreBundle\Entity\Alerte $alerte){
+    public function __construct(\TRC\CoreBundle\Entity\Agent $agent,\TRC\CoreBundle\Entity\Alerte $alerte,\TRC\CoreBundle\Entity\StatutAlerte $statut){
         $this->at = new \DateTime();
         $this->alerte = $alerte;
         $this->agent = $agent;
+        $this->statut = $statut;
     }
     /**
      * Set at

@@ -43,28 +43,49 @@ class Alerte
     private $montant;
     
     /**
-     * @ORM\ManyToOne(targetEntity="TRC\CoreBundle\Entity\Client")
+     * @ORM\OneToOne(targetEntity="TRC\CoreBundle\Entity\Statut")
      * @ORM\JoinColumn(nullable=true)
+     */
+    private $statut;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="TRC\CoreBundle\Entity\Client")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $client;
     
     /**
      * @ORM\ManyToOne(targetEntity="TRC\CoreBundle\Entity\TypeOperation")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $operation;
     
     /**
      * @ORM\ManyToOne(targetEntity="TRC\CoreBundle\Entity\Agent")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $agent;
+    
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="cloture", type="boolean",nullable=true)
+     */
+    private $cloture;
+   
 
+    public function __construct(){
+        $this->dateOperation = $this->at = new \DateTime();
+    }
+
+       public function getEntite(){
+           return $this->agent->getEntite();
+       }
 
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -142,5 +163,100 @@ class Alerte
     {
         return $this->montant;
     }
-}
 
+    /**
+     * Set statut
+     *
+     * @param \TRC\CoreBundle\Entity\Statut $statut
+     *
+     * @return Alerte
+     */
+    public function setStatut(\TRC\CoreBundle\Entity\Statut $statut = null)
+    {
+        $this->statut = $statut;
+
+        return $this;
+    }
+
+    /**
+     * Get statut
+     *
+     * @return \TRC\CoreBundle\Entity\Statut
+     */
+    public function getStatut()
+    {
+        return $this->statut;
+    }
+
+    /**
+     * Set client
+     *
+     * @param \TRC\CoreBundle\Entity\Client $client
+     *
+     * @return Alerte
+     */
+    public function setClient(\TRC\CoreBundle\Entity\Client $client)
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    /**
+     * Get client
+     *
+     * @return \TRC\CoreBundle\Entity\Client
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    /**
+     * Set operation
+     *
+     * @param \TRC\CoreBundle\Entity\TypeOperation $operation
+     *
+     * @return Alerte
+     */
+    public function setOperation(\TRC\CoreBundle\Entity\TypeOperation $operation = null)
+    {
+        $this->operation = $operation;
+
+        return $this;
+    }
+
+    /**
+     * Get operation
+     *
+     * @return \TRC\CoreBundle\Entity\TypeOperation
+     */
+    public function getOperation()
+    {
+        return $this->operation;
+    }
+
+    /**
+     * Set agent
+     *
+     * @param \TRC\CoreBundle\Entity\Agent $agent
+     *
+     * @return Alerte
+     */
+    public function setAgent(\TRC\CoreBundle\Entity\Agent $agent = null)
+    {
+        $this->agent = $agent;
+
+        return $this;
+    }
+
+    /**
+     * Get agent
+     *
+     * @return \TRC\CoreBundle\Entity\Agent
+     */
+    public function getAgent()
+    {
+        return $this->agent;
+    }
+}

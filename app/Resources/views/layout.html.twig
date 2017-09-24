@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
+  <meta charset="iso-8859-1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>
     {%block title%}SIRON{%endblock%}
   </title>
-  {%block shortcut %}
-  <link rel="shortcut icon"  href="{{asset('img/demat.png')}}">
-  {%endblock%}
+
   <!-- Tell the browser to be responsive to screen width -->
-  <link rel="stylesheet" type="text/css" href="{{asset('slick/slick.css')}}">
-  <link rel="stylesheet" type="text/css" href="{{asset('slick/slick-theme.css')}}">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" type="text/css" href="{{asset('slick/slick.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{asset('slick/slick-theme.css')}}">
   <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{asset('font-awesome/css/font-awesome.min.css')}}">
@@ -37,11 +35,12 @@
   <!-- ion slider Nice -->
   <link rel="stylesheet" href="{{asset('plugins/ionslider/ion.rangeSlider.skinNice.css')}}">
 <link rel="stylesheet" href="{{asset('css/app.css')}}">
-{%block style%}{%endblock%}
-  
-  
+  <link rel="shortcut icon"  href="{{asset('img/demat.png')}}">
+  <script type="text/javascript">
+    var ajaxUrl = "{{url('trc_sdc_ajax')}}"
+  </script>
 </head>
-<body class=" sidebar-mini skin-blue layout-boxed"> 
+<body class="sidebar-mini skin-green-light layout-boxed sidebar-collapse- fixed-"> 
 <div class="wrapper">
 
   <header class="main-header">
@@ -49,48 +48,57 @@
     <!-- Logo -->
     {%block logo%}
     
-    <a class="logo">
+    <a href="{{url('trc_core_homepage')}}" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini">
-        <small></small>
+        <img src="{{asset('img/demat.png')}} " width="50">
       </span>
       <!-- logo for regular state and mobile devices -->
-      
+      SIRON
     </a>
-   
     {%endblock%}
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
       <!-- Sidebar toggle button-->
-      <!-- <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
         <span class="sr-only">Toggle navigation</span>
 
-      </a> -->
+      </a>
       <!-- Navbar Right Menu -->
       
       <div class="navbar-custom-menu">
 
         <ul class="nav navbar-nav">
           
-          {#% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-               {{render(controller('TRCCoreBundle:Affichage:notification',{}))}}
-          {%endif%#}
+          
           
           <!-- User Account: style can be found in dropdown.less -->
           {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                {{render(controller('TRCCoreBundle:Affichage:connectetop',{}))}}
           {%endif%}
           
-          <!-- Control Sidebar Toggle Button -->
-          <!-- <li>
-            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-          </li> -->
+          
         </ul>
       </div>
 
     </nav>
   </header>
- 
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+      {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+           {{render(controller('TRCCoreBundle:Affichage:connecte',{}))}}
+      {%endif%}
+      <!-- /.search form -->
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+      {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+           {{render(controller('TRCCoreBundle:Affichage:menu',{}))}}
+      {%endif%}
+    </section>
+    <!-- /.sidebar -->
+  </aside>
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -98,10 +106,12 @@
     <section class="content-header">
       <h1>
        {%block titrepage%}
+          SIRON
+          <small>Version 1</small>
          {%endblock titrepage%}
       </h1>
       <ol class="breadcrumb">
-        
+        <!-- <li><a href="{{url('trc_core_homepage')}} "><i class="fa fa-dashboard"></i> Home</a></li> -->
         {%block position %}
         {%endblock position%}
       </ol>
@@ -110,10 +120,7 @@
     <!-- Main content -->
     <section class="content">
       <!-- Info boxes -->
-      <div class="row">
-      {%block avancement%}
-      {%endblock avancement%}
-      </div>
+      
      
       <div id="myContent">
         {%block content%}{%endblock content%}
@@ -127,14 +134,16 @@
 
   <footer class="main-footer">
   {%block versionApp %}
-    &copy 09-17 AKL
-    
+    <div class="pull-right hidden-xs">
+      
+        <b>SIRON</b> 1
+      
+    </div> 
+    <strong style="opacity:0.3"> 
+      <a href="# ">&copy; AKL 09-17</a>
+    </strong>
     {%endblock%}
   </footer>
-
-{#% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-     {{render(controller('TRCCoreBundle:Affichage:reglage',{}))}}
-{%endif%#}
 
 
 
@@ -147,11 +156,11 @@
 <!-- jQuery 2.2.3 -->
 <script src="{{asset('plugins/jQuery/jquery-2.2.3.min.js')}}"></script>
 <!-- Bootstrap 3.3.6 -->
-<script src="{{asset('slick/slick.js')}}" type="text/javascript" charset="utf-8"></script>
 <script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
 <!-- FastClick -->
 <script src="{{asset('plugins/fastclick/fastclick.js')}}"></script>
 <!-- AdminLTE App -->
+<script src="{{asset('slick/slick.js')}}" type="text/javascript" charset="utf-8"></script>
 <script src="{{asset('dist/js/app.min.js')}}"></script>
 <!-- Sparkline -->
 <script src="{{asset('plugins/sparkline/jquery.sparkline.min.js')}}"></script>
@@ -179,6 +188,7 @@
  <script src="{{asset('js/app.js')}}"></script> 
 
  <script src="{{asset('js/changeImage.js')}}"></script> 
+ <script src="{{asset('js/sdc.js')}}"></script> 
 <!--  <script src="{{asset('angular/angular.min.js')}}"></script> 
  <script src="{{asset('angular/app.js')}}"></script>  -->
 
@@ -195,6 +205,11 @@
     $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
       checkboxClass: 'icheckbox_minimal-blue',
       radioClass: 'iradio_minimal-blue'
+    });
+    notificationGeneral();
+    $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+    $('.datepicker').datepicker({
+      autoclose: true
     });
   });
 </script>

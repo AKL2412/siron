@@ -94,4 +94,3 @@ class TypeOperation
         return $this->code;
     }
 }
-

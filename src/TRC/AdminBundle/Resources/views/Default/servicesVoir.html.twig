@@ -35,7 +35,7 @@
                 <div class="box-body">
 		{%for p in postes %}
 			<div class="col-md-6">
-				{{render(controller('TRCCoreBundle:Affichage:presentEmploye',{employe:p.employe}))}}
+				{{render(controller('TRCCoreBundle:Affichage:presentEmploye',{employe:p}))}}
 			</div>
 		{%endfor%}
 		</div>
@@ -45,31 +45,5 @@
                     {{ knp_pagination_render(postes) }}
                   </div>
 </div>
-{%if sousentites|length > 0 %}
-<div class="row">
-	<div class="col-lg-12">
-	<div class="box box-primary">
-                <div class="box-header with-border">
-                  <h3 class="box-title">Les sous entités de {{entite.nom}} </h3>
 
-                  <div class="box-tools pull-right">
-                    <span class="label label-danger">{{sousentites|length}} Entité(s)</span>
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                    </button>
-                    
-                  </div>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-		{%for p in sousentites %}
-			<div class="col-md-6">
-				{{render(controller('TRCCoreBundle:Affichage:presentService',{service:p}))}}
-			</div>
-		{%endfor%}
-		</div>
-		</div>
-	</div>
-	
-</div>
-{%endif%}
 {%endblock content%}

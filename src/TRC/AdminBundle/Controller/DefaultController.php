@@ -1,32 +1,18 @@
 <?php
 
 namespace TRC\AdminBundle\Controller;
+use \TRC\CoreBundle\Entity\Agent;
+use \TRC\CoreBundle\Form\AgentType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-use JMS\SecurityExtraBundle\Annotation\Secure;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\SecurityContextInterface;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\EventDispatcher\Tests\Service;
 use Symfony\Component\HttpFoundation\Request;
-use TRC\CoreBundle\Systemes\General\Core;
-use TRC\CoreBundle\Entity\Societe;
-use TRC\CoreBundle\Entity\Recherche;
-use TRC\CoreBundle\Form\SocieteType;
-use TRC\CoreBundle\Entity\Utilisateur;
-use TRC\CoreBundle\Entity\Poste;
-use TRC\CoreBundle\Form\UtilisateurType;
-use TRC\CoreBundle\Form\PosteType;
 use Symfony\Component\HttpFoundation\File\File;
-
-use TRC\CoreBundle\Entity\App;
-use TRC\CoreBundle\Form\AppType;
-
-use TRC\CoreBundle\Entity\Service;
-use TRC\CoreBundle\Form\ServiceType;
-use TRC\CoreBundle\Entity\Fonction;
-use TRC\CoreBundle\Form\FonctionType;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use TRC\CoreBundle\Entity\Entite;
+use TRC\CoreBundle\Form\EntiteType;
+use TRC\CoreBundle\Entity\Client;
+use TRC\CoreBundle\Form\ClientType;
 
 class DefaultController extends Controller
 {
@@ -39,97 +25,26 @@ class DefaultController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $gu = $this->get('trc_core.gu');
-        $session = new Session();
 
-        $utilisateur = new Utilisateur();
+        $agent = new Agent();
         if (!is_null($id)) {
-            $utilisateur = $em->getRepository('TRCCoreBundle:Utilisateur')
+            $agent = $em->getRepository('TRCCoreBundle:Agent')
                             ->find($id);
-            if(is_null($utilisateur))
+            if(is_null($agent))
                 throw new \Exception("Erreur de paramètre #MODIFEMPL", 1);
-            $tab = explode("@", $utilisateur->getEmail());
-            $utilisateur->setEmail($tab[0]);
-            $utilisateur->setImage(new File($utilisateur->getImage()));
-                
+           
         }
-       // die($utilisateur->getImage()->getPathname());
-        $session->set('image',$utilisateur->getImage()->getPathname());
         $form = $this->get('form.factory')->create(
-            new UtilisateurType(),$utilisateur
+            new AgentType(),$agent
             );
         if($form->handleRequest($request)->isValid()){
-            $admin = array();
-            if(null !== $request->request->get('applications'))
-                $admin = $request->request->get('applications');
-            
-            $tab = explode("@", $utilisateur->getEmail());
-            $utilisateur->setEmail($tab[0]."@banqueatlantique.net");
-
-            
-
             if(is_null($id)){
-                if(is_null($utilisateur->getImage()))
-                    $utilisateur->setImage($session->get('image'));
-            $utilisateur = $this->get('trc_core.gu')->createUtilisateur($utilisateur,$request->request->get('applications'));
-            $em->persist($utilisateur);
-            $this->get('trc_core.gu')->track(array(
-                        'user'=>$this->getUser(),
-                        'action'=>"Ajout d'employé",
-                        'description'=>"Ajouter de l'employé: <b><u>".$utilisateur->getMatricule()."</u></b> "
-                        ));
-            }else{
-                if(is_null($utilisateur->getImage()))
-                    $utilisateur->setImage($session->get('image'));
-                else{
-                    $file = new File($utilisateur->getImage());
-                    if($file != null){
-                            $extension = $file->guessExtension();
-                            if (!$extension) {
-                                $extension = 'jpg';
-                            }
-                            $nomImage = $utilisateur->getCode().'-'.date('dmYHis').'.'.$extension;
-                            
-                                $file->move($utilisateur->getDossier()."/img", $nomImage);
-                            
-                            $utilisateur->setImage($utilisateur->getDossier()."/img".'/'.$nomImage);
-                        }
-                }
-
-                if(count($admin) > 0)
-                    $utilisateur->setCompte($gu->creerCompte($utilisateur,$admin));
-                if(!$utilisateur->getActive()){
-                    $p = $gu->getMonPoste($utilisateur);
-                     if(!is_null($p))
-                    $p->setActive(false);
-                    $em->flush();
-                }
-
-                if($utilisateur->getTrash()){
-                    $utilisateur->setActive(false);
-                    $p = $gu->getMonPoste($utilisateur);
-                    if(!is_null($p))
-                    $p->setActive(false);
-                   
-                    if(!is_null($utilisateur->getCompte()))
-                        $utilisateur->getCompte()->setEnabled(false);
-                     $em->flush();
-                     $this->get('trc_core.gu')->track(array(
-                        'user'=>$this->getUser(),
-                        'action'=>"Suppression d'employé",
-                        'description'=>"supprimer l'employé: <b><u>".$utilisateur->getMatricule()."</u></b> "
-                        ));
-                    return $this->redirect($this->generateUrl('trc_admin_utilisateurs'));
-                }
-                $this->get('trc_core.gu')->track(array(
-                        'user'=>$this->getUser(),
-                        'action'=>"Modification d'employé",
-                        'description'=>"Modifier l'employé: <b><u>".$utilisateur->getMatricule()."</u></b> "
-                        ));
+                $agent = $gu->creerCompte($agent);
+                $em->persist($agent);
             }
-            
             $em->flush();
             
-            return $this->redirect($this->generateUrl('trc_admin_utilisateurs_voir',array('id'=>$utilisateur->getId())));
+            return $this->redirect($this->generateUrl('trc_admin_utilisateurs_voir',array('id'=>$agent->getId())));
         }
         
         return $this->render('TRCAdminBundle:Default:admin.html.twig',
@@ -140,11 +55,9 @@ class DefaultController extends Controller
     public function utilisateursAction(Request $request){
 
     	$em = $this->get('doctrine')->getManager();
-       $security = $this->get('security.context');
+      
        
-       $dql   = "SELECT a FROM TRCCoreBundle:Utilisateur a WHERE a.active = true";
-       if($security->isGranted('ROLE_ADMIN'))
-        $dql   = "SELECT a FROM TRCCoreBundle:Utilisateur a";
+        $dql   = "SELECT a FROM TRCCoreBundle:Agent a";
         $query = $em->createQuery($dql);
        // $query->setParameter('societe',$societe);
        // $societes = $query->getResult();
@@ -160,8 +73,7 @@ class DefaultController extends Controller
     public function utilisateurVoirAction(Request $request,$id){
 
     	$em = $this->get('doctrine')->getManager();
-       	$security = $this->get('security.context');
-       	$employe = $em->getRepository('TRCCoreBundle:Utilisateur')
+       	$employe = $em->getRepository('TRCCoreBundle:Agent')
        					->find($id);
 
        	if(is_null($employe))
@@ -169,103 +81,69 @@ class DefaultController extends Controller
         
        
       
-       if(!$security->isGranted('ROLE_ADMIN') && $employe->getTrash())
-            throw new \Exception("Employé supprimé", 1);
-            
-       	$postes = $this->get('trc_core.gu')->getMesPoste($employe);
-    	
-       	$poste = $this->get('trc_core.gu')->getMonPoste($employe);
-        if(is_null($poste)){
-            $poste = new Poste();
-            $poste->setEmploye($employe);
-        }
-        
-        $form = $this->get('form.factory')->create(
-            new PosteType(),$poste);
-
-        if($form->handleRequest($request)->isValid()){
-
-        	
-
-        	$responsable = $this->get('trc_core.gu')->responsableService($poste->getService());
-        	if($poste->getFonction()->getResponsable() && !is_null($responsable)){
-        		$nomService = $poste->getService()->getNom();
-        		$nomResponsable = $responsable->getEmploye()->getPrenom()." ".strtoupper($responsable->getEmploye()->getNom());
-        		throw new \Exception("La fonction que vous affectez est une fonction responsable. Elle ne peut exister q'une fois au niveau d'une même entité et actuellement le responsable de ".$nomService." est ".$nomResponsable, 1);
-        		
-        	}
-            $postes = $em->getRepository('TRCCoreBundle:Poste')
-                        ->findBy(
-                        	array("employe"=>$employe,"active"=>true),
-                        	array(),null,0);
-            foreach ($postes as $key => $p) {
-                $p->setFin(new \DateTime());
-                $p->setActive(false);
-            }
-            $poste->setCode($this->get('trc_core.gu')->codePoste($poste));
-            $poste->setActive(true);
-            $em->persist($poste);
-            $em->flush();
-            /*
-            $recherche = new Recherche();
-            $recherche->setPoste($poste);
-            $employe->setActive(true);
-            $em->persist($recherche);
-            $em->flush();
-            //*/
-             $this->get('trc_core.gu')->track(array(
-                        'user'=>$this->getUser(),
-                        'action'=>"Affectation d'employé",
-                        'description'=>"Affecter l'employé<b>".$employe->getNom()." </b> <u>".$employe->getCode()."</u> à l'entité ".$poste->getService()->getNom().".Fonction <b>".$poste->getFonction()->getNom()."</b>"
-                        ));
-             //*/
-            return $this->redirect($this->generateUrl('trc_admin_utilisateurs_voir',
-                array('id'=>$id)));
-        }
-
-      
-
         return $this->render('TRCAdminBundle:Default:employe.html.twig',
-            array("employe"=>$employe,'poste'=>$poste,'postes'=>$postes,'form'=>$form->createView(),
+            array("agent"=>$employe
                 ));
     }
-
+    
     public function servicesAction(Request $request,$id = null){
-
+        
         $em = $this->getDoctrine()->getManager();
         $service = null;
         if(!is_null($id))
-            $service = $em->getRepository('TRCCoreBundle:Service')
+            $service = $em->getRepository('TRCCoreBundle:Entite')
+            ->find($id);
+            
+            if(is_null($service))
+                $service = new Entite();
+                $form = $this->get('form.factory')->create(
+                    new EntiteType(),$service
+                    );
+                if($form->handleRequest($request)->isValid()){
+                    
+                    if(is_null($id))
+                        $em->persist($service);
+                        $em->flush();
+                        return $this->redirect($this->generateUrl('trc_admin_services'));
+                }
+                
+                $dql   = "SELECT a FROM TRCCoreBundle:Entite a ";
+                $query = $em->createQuery($dql);
+                $paginator  = $this->get('knp_paginator');
+                $pagination = $paginator->paginate(
+                    $query, /* query NOT result */
+                    $request->query->getInt('page', 1)/*page number*/,
+                    20/*limit per page*/
+                    );
+                return $this->render('TRCAdminBundle:Default:services.html.twig',
+                    array(
+                        "form"=>$form->createView(),
+                        'pagination' => $pagination
+                    ));
+    }
+    
+    public function clientsAction(Request $request,$id = null){
+
+        $em = $this->getDoctrine()->getManager();
+        $client = new Client();
+        if(!is_null($id))
+            $client = $em->getRepository('TRCCoreBundle:Client')
                     ->find($id);
 
-        if(is_null($service))
-            $service = new Service();
+        
+            
         $form = $this->get('form.factory')->create(
-            new ServiceType(),$service
+            new ClientType(),$client
             );
         if($form->handleRequest($request)->isValid()){
 
-            //$service->setCode($this->get('trc_core.gu')->codeService($service));
             if(is_null($id))
-            $em->persist($service);
+            $em->persist($client);
             $em->flush();
-            /*
-            if(is_null($id)){
-                $recherche = new Recherche();
-                $recherche->setService($service);
-                $em->persist($recherche);
-                $em->flush();
-            }
-            //*/
-             $this->get('trc_core.gu')->track(array(
-                        'user'=>$this->getUser(),
-                        'action'=>'Ajout/modification de service',
-                        'description'=>"Entité: <b>".$service->getNom()." </b>"
-                        ));
-            return $this->redirect($this->generateUrl('trc_admin_services'));
+            return $this->redirect($this->generateUrl('trc_admin_clients'));
         }
         
-        $dql   = "SELECT a FROM TRCCoreBundle:Service a ";
+        $dql   = "SELECT a FROM TRCCoreBundle:Client a ";
         $query = $em->createQuery($dql);
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
@@ -273,7 +151,7 @@ class DefaultController extends Controller
             $request->query->getInt('page', 1)/*page number*/,
             20/*limit per page*/
         );
-        return $this->render('TRCAdminBundle:Default:services.html.twig',
+        return $this->render('TRCAdminBundle:Default:clients.html.twig',
             array(
                 "form"=>$form->createView(),
                 'pagination' => $pagination
@@ -281,11 +159,11 @@ class DefaultController extends Controller
     }
     public function servicesVoirAction(Request $request,$code){
         $em = $this->getDoctrine()->getManager();
-        $entite = $em->getRepository('TRCCoreBundle:Service')
+        $entite = $em->getRepository('TRCCoreBundle:Entite')
                     ->findOneByCode($code);
         if(is_null($entite))
             throw new \Exception("Erreur de code ".$code, 1);
-        $sql = "SELECT DISTINCT p,f FROM TRCCoreBundle:Poste p JOIN p.service s JOIN p.fonction f WHERE p.active = true AND s = :service ORDER BY f.responsable DESC";
+        $sql = "SELECT DISTINCT p FROM TRCCoreBundle:Agent p JOIN p.entite s WHERE s = :service";
         $query = $em->createQuery($sql);
         $query->setParameter('service',$entite);
        // $societes = $query->getResult();
@@ -295,14 +173,11 @@ class DefaultController extends Controller
             $request->query->getInt('page', 1)/*page number*/,
             15/*limit per page*/
         );
-        $sousentites = $em->getRepository('TRCCoreBundle:Service')
-                        ->findByParent($entite);
         return $this->render('TRCAdminBundle:Default:servicesVoir.html.twig',
             array(
                // "form"=>$form->createView(),
                 'entite' => $entite,
-                'postes'=>$pagination,
-                'sousentites'=>$sousentites
+                'postes'=>$pagination
                 ));
             
     }

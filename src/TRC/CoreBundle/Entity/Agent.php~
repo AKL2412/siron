@@ -63,7 +63,10 @@ class Agent
      */
     private $compte;
 
-
+    
+    public function nomprenom(){
+        return $this->prenom." ".strtoupper($this->nom);
+    }
     /**
      * Get id
      *
@@ -145,5 +148,76 @@ class Agent
     {
         return $this->email;
     }
-}
 
+    /**
+     * Set entite
+     *
+     * @param \TRC\CoreBundle\Entity\Entite $entite
+     *
+     * @return Agent
+     */
+    public function setEntite(\TRC\CoreBundle\Entity\Entite $entite = null)
+    {
+        $this->entite = $entite;
+
+        return $this;
+    }
+
+    /**
+     * Get entite
+     *
+     * @return \TRC\CoreBundle\Entity\Entite
+     */
+    public function getEntite()
+    {
+        return $this->entite;
+    }
+
+    /**
+     * Set profil
+     *
+     * @param \TRC\CoreBundle\Entity\Profil $profil
+     *
+     * @return Agent
+     */
+    public function setProfil(\TRC\CoreBundle\Entity\Profil $profil = null)
+    {
+        $this->profil = $profil;
+
+        return $this;
+    }
+
+    /**
+     * Get profil
+     *
+     * @return \TRC\CoreBundle\Entity\Profil
+     */
+    public function getProfil()
+    {
+        return $this->profil;
+    }
+
+    /**
+     * Set compte
+     *
+     * @param \TRC\UserBundle\Entity\User $compte
+     *
+     * @return Agent
+     */
+    public function setCompte(\TRC\UserBundle\Entity\User $compte = null)
+    {
+        $this->compte = $compte;
+
+        return $this;
+    }
+
+    /**
+     * Get compte
+     *
+     * @return \TRC\UserBundle\Entity\User
+     */
+    public function getCompte()
+    {
+        return $this->compte;
+    }
+}

@@ -15,7 +15,12 @@ trc_admin_utilisateurs:
 trc_admin_utilisateurs_voir:
     path:     /employes/{id}
     defaults: { _controller: TRCAdminBundle:Default:utilisateurVoir }
-
+trc_admin_clients:
+    path:     /clients
+    defaults: { _controller: TRCAdminBundle:Default:clients }
+trc_admin_clients_modif:
+    path:     /clients/{id}
+    defaults: { _controller: TRCAdminBundle:Default:clients }
 
 trc_admin_services:
     path:     /entites

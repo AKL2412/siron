@@ -34,7 +34,17 @@ class Client
      * @ORM\Column(name="prenom", type="string", length=255)
      */
     private $prenom;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="radical", type="string", length=10,unique=true)
+     */
+    private $radical;
 
+   public function getDetail(){
+       return $this->getPrenom()." ".strtoupper($this->getNom())."[".$this->getRadical()."]";
+   }
 
     /**
      * Get id
@@ -93,5 +103,28 @@ class Client
     {
         return $this->prenom;
     }
-}
 
+    /**
+     * Set radical
+     *
+     * @param string $radical
+     *
+     * @return Client
+     */
+    public function setRadical($radical)
+    {
+        $this->radical = $radical;
+
+        return $this;
+    }
+
+    /**
+     * Get radical
+     *
+     * @return string
+     */
+    public function getRadical()
+    {
+        return $this->radical;
+    }
+}

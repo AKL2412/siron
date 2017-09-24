@@ -1,0 +1,63 @@
+{%extends '::layout.html.twig'%}
+{%block title%}
+{{parent()}}
+| {{q}}
+{%endblock%}
+{%block position %}
+    {{parent()}}
+{%endblock position%}
+{%block titrepage%}
+   
+   <div class="row">
+	<div class="col-md-6">
+		<form action="{{url('trc_core_recherche')}}" method="get" class="form">
+        <div class="input-group">
+          
+              <span class="input-group-btn">
+                <button type="submit" id="search-btn" class="btn btn-primary"><i class="fa fa-search"></i>
+                </button>
+              </span>
+             <input style="outline:none" type="text" name="q" class="form-control" value="{{q}}" placeholder="Search...">
+        </div>
+      </form>
+	</div>
+</div>
+
+{%endblock titrepage%}
+{%block content%}
+Recherche : <span class="text-info">
+   	{{q}}
+   </span> {{results|length}} résultat(s)
+   <div class="container">
+{%if results|length > 0 %}
+	{%for r in results %}
+		<div class="row">
+			<a href="{{r.lien}}">
+				<h5>
+					{{r.titre}}
+				</h5>
+			</a>
+			<p>
+				<small>
+					{{r.details|raw}}
+				</small>
+			</p>
+			{%if r.type == 'Utilisateur' %}
+
+				{{render(controller('TRCCoreBundle:Affichage:presentEmploye',{employe:r.objet,recherche: 'recherche'}))}}
+			{%elseif r.type == 'Service' %}
+				{{render(controller('TRCCoreBundle:Affichage:presentService',{service:r.objet,recherche: 'recherche'}))}}
+			{%endif%}
+		</div>
+	{%endfor%}
+{%endif%}
+</div>
+<div class="navigation">
+      {{ knp_pagination_render(pagination) }}
+    </div>
+{%endblock%}
+{%block script%}
+<script type="text/javascript">
+    activeLink("recherche")
+</script>
+{%endblock script%}

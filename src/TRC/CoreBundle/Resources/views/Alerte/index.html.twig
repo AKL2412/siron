@@ -1,0 +1,57 @@
+{%extends '::layout.html.twig'%}
+{%block title%}
+{{parent()}}
+{%endblock%}
+{%block position %}
+    {{parent()}}
+{%endblock position%}
+{%block titrepage%}
+   
+  
+
+{%endblock titrepage%}
+{%block content%}
+<div class="row">
+	<div class="col-md-8 col-md-offset-2">
+		{{ form_start(form) }}
+			<div class="form-group">
+				<label>
+					Date de l'opération
+				</label>
+				{{ form_widget(form.dateOperation) }}
+			</div>
+			<div class="form-group">
+				<label>
+					Montant
+				</label>
+				{{ form_widget(form.montant,{'attr':{'class':'form-control'}}) }}
+			</div>
+			<div class="form-group">
+    				<label>
+    					Type d'opération
+    				</label>
+    				{{ form_widget(form.operation,{'attr':{'class':'form-control select2'}}) }}
+    			</div>
+			{% if form.vars.value.client is null %}
+				<div class="form-group">
+    				<label>
+    					Client
+    				</label>
+    				{{ form_widget(form.client,{'attr':{'class':'form-control select2'}}) }}
+    			</div>
+			{% else %}
+				<h3 class="text-center text-danger">
+				Client : {{  form.vars.value.client.radical }}
+				</h3>
+				{{ form_widget(form.client,{'attr':{'hidden':'hidden'}}) }}
+			{% endif %}
+		{{ form_end(form) }}
+	</div>
+</div>
+
+{%endblock%}
+{%block script%}
+<script type="text/javascript">
+    activeLink("ajout-alerte")
+</script>
+{%endblock script%}

@@ -1,0 +1,105 @@
+{%extends 'TRCCoreBundle::Alerte/alertes.html.twig'%}
+{%block title%}
+{{parent()}}
+{%endblock%}
+{%block position %}
+    {{parent()}}
+    <li >
+          	<a href="{{url('trc_core_voir_alert',{id:alerte.id})}} ">
+              <i class="fa-tags fa"></i>
+          		Alertes
+          	</a>
+          </li>
+{%endblock position%}
+{%block titrepage%}
+   Alerte #{{ alerte.id }}
+{%endblock titrepage%}
+{%block content%}
+<div class="row">
+	<div class="col-md-5">
+		{%if not alerte.cloture %}
+			<a href="{{url('trc_core_modif_alerte',{id:alerte.id})}} ">
+				<i class="fa-pencil fa"></i> modifier
+			</a>
+		{%endif%}
+		<table class="table">
+			<tr>
+				<td>Client</td>
+				<td>{{ alerte.client.detail }}</td>
+			</tr>
+			<tr>
+				<td>Opération</td>
+				<td>{{ alerte.operation.nom }}</td>
+			</tr>
+			<tr>
+				<td>Montant</td>
+				<td>{{ formatMontant(alerte.montant) }}</td>
+			</tr>
+			<tr>
+				<td>Date de l'opération</td>
+				<td>{{ alerte.dateOperation|date('d-m-Y') }}</td>
+			</tr>
+			<tr>
+				<td>Statut</td>
+				<td>{{ alerte.statut.statut.nom }}</td>
+			</tr>
+			<tr>
+				
+				<td colspan="2" class="text-center">
+					<em>Saisie le {{ alerte.at|date('d-m-Y H:i') }}</em>
+				</td>
+			</tr>
+		</table>
+		{%if is_granted('ROLE_AS') and not alerte.cloture %}
+			<h3 class="text-center text-success">Mettre à jour le statut</h3>
+			<form method="post">
+				<div class="form-group">
+					<label>Statut</label>
+					<select class="form-control select2" required="required" name="statut">
+						{%for ss in alertestatuts%}
+							<option value="{{ss.id}}">
+								{{ss.nom}}
+							</option>
+						{%endfor%}
+					</select>	
+				</div>
+				<div class="form-group">
+					<label>Commentaire</label>
+					<textarea class="form-control" name="commentaire"></textarea>	
+				</div>
+				<button class="btn btn-success" type="submit">
+					Ajouter
+				</button>
+			</form>
+
+		{%endif%}
+	</div>
+	<div class="col-md-7">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Date</th>
+					<th>Statut</th>
+					<th>Agent</th>
+					<th>Commentaire</th>
+				</tr>
+			</thead>
+			<tbody>
+				{%for s in statuts%}
+					<tr>
+						<td>{{s.at|date('d-m-y H:i')}} </td>
+						<td>{{s.statut.nom}} </td>
+						<td>{{s.agent.nomprenom}} </td>
+						<td>{{s.commentaire}}</td>
+					</tr>
+				{%endfor%}
+			</tbody>
+		</table>
+	</div>
+</div>
+{%endblock%}
+{%block script%}
+<script type="text/javascript">
+    activeLink("alertes")
+</script>
+{%endblock script%}

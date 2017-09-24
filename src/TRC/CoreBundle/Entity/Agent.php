@@ -63,7 +63,10 @@ class Agent
      */
     private $compte;
 
-
+    
+    public function nomprenom(){
+        return $this->prenom." ".strtoupper($this->nom);
+    }
     /**
      * Get id
      *

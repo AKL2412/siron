@@ -61,10 +61,11 @@ class Statut
         return $this->id;
     }
 
-    public function __construct(\TRC\CoreBundle\Entity\Agent $agent,\TRC\CoreBundle\Entity\Alerte $alerte){
+    public function __construct(\TRC\CoreBundle\Entity\Agent $agent,\TRC\CoreBundle\Entity\Alerte $alerte,\TRC\CoreBundle\Entity\StatutAlerte $statut){
         $this->at = new \DateTime();
         $this->alerte = $alerte;
         $this->agent = $agent;
+        $this->statut = $statut;
     }
     /**
      * Set at
@@ -89,5 +90,100 @@ class Statut
     {
         return $this->at;
     }
-}
 
+    /**
+     * Set commentaire
+     *
+     * @param string $commentaire
+     *
+     * @return Statut
+     */
+    public function setCommentaire($commentaire)
+    {
+        $this->commentaire = $commentaire;
+
+        return $this;
+    }
+
+    /**
+     * Get commentaire
+     *
+     * @return string
+     */
+    public function getCommentaire()
+    {
+        return $this->commentaire;
+    }
+
+    /**
+     * Set alerte
+     *
+     * @param \TRC\CoreBundle\Entity\Alerte $alerte
+     *
+     * @return Statut
+     */
+    public function setAlerte(\TRC\CoreBundle\Entity\Alerte $alerte = null)
+    {
+        $this->alerte = $alerte;
+
+        return $this;
+    }
+
+    /**
+     * Get alerte
+     *
+     * @return \TRC\CoreBundle\Entity\Alerte
+     */
+    public function getAlerte()
+    {
+        return $this->alerte;
+    }
+
+    /**
+     * Set statut
+     *
+     * @param \TRC\CoreBundle\Entity\StatutAlerte $statut
+     *
+     * @return Statut
+     */
+    public function setStatut(\TRC\CoreBundle\Entity\StatutAlerte $statut = null)
+    {
+        $this->statut = $statut;
+
+        return $this;
+    }
+
+    /**
+     * Get statut
+     *
+     * @return \TRC\CoreBundle\Entity\StatutAlerte
+     */
+    public function getStatut()
+    {
+        return $this->statut;
+    }
+
+    /**
+     * Set agent
+     *
+     * @param \TRC\CoreBundle\Entity\Agent $agent
+     *
+     * @return Statut
+     */
+    public function setAgent(\TRC\CoreBundle\Entity\Agent $agent)
+    {
+        $this->agent = $agent;
+
+        return $this;
+    }
+
+    /**
+     * Get agent
+     *
+     * @return \TRC\CoreBundle\Entity\Agent
+     */
+    public function getAgent()
+    {
+        return $this->agent;
+    }
+}

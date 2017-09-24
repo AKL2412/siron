@@ -2,6 +2,23 @@ trc_core_homepage:
     path:     /
     defaults: { _controller: TRCCoreBundle:Default:index }
 
-trc_core_societe:
-    path:     /societes
-    defaults: { _controller: TRCCoreBundle:Default:societe }
+trc_core_recherche:
+    path:     /recherche
+    defaults: { _controller: TRCCoreBundle:Recherche:index }
+    
+trc_core_creer_alerte:
+    path:     /creer-alerte
+    defaults: { _controller: TRCCoreBundle:Alerte:creer }
+trc_core_modif_alerte:
+    path:     /modifier-alerte/{id}
+    defaults: { _controller: TRCCoreBundle:Alerte:creer } 
+trc_core_creer_alerte_avec_client:
+    path:     /creer-alerte/{radical}
+    defaults: { _controller: TRCCoreBundle:Alerte:creer }
+trc_core_voir_alert:
+    path:     /alertes/{id}
+    defaults: { _controller: TRCCoreBundle:Alerte:voir }
+
+trc_core_les_alerts:
+    path:     /alertes
+    defaults: { _controller: TRCCoreBundle:Alerte:alertes }

@@ -1,14 +1,14 @@
 {%extends 'TRCAdminBundle::Default/admin.html.twig'%}
 {%block title%}
 {{parent()}}
-| {{employe.nom}}
+| {{agent.nom}}
 {%endblock%}
 {%block position %}
   {{parent()}}
           <li >
-          	<a href="{{url('trc_admin_utilisateurs_voir',{id:employe.id})}} ">
+          	<a href="{{url('trc_admin_utilisateurs_voir',{id:agent.id})}} ">
           		<i class="fa-user fa"></i>
-          		{{employe.code}}
+          		{{agent.nom}}
           	</a>
           </li>
 {%endblock position%}
@@ -23,25 +23,20 @@
           <!-- Profile Image -->
           <div class="box box-primary">
             <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="{{asset(employe.image)}} " alt="User profile picture">
+              <img class="profile-user-img img-responsive img-circle" src="{{asset('img/dh.png')}} " alt="User profile picture">
 
               <h3 class="profile-username text-center">
-                {{employe.prenom}}
-                {{employe.nom|upper}}
+                {{agent.prenom}}
+                {{agent.nom|upper}}
               </h3>
 
               <p class="text-muted text-center">
-              	{%if poste is not null and poste.fonction is not null %}
-              		{{poste.fonction.code}}<br>
+              	
+              		{{agent.profil.code}}<br>
               		<small>
-              			{{poste.service.nom}}
+              			{{agent.entite.nom}}
               		</small>
-              	{%else%}
-              		<small class="text-danger">
-              			<i class="fa-warning fa"></i>
-              			Indiquer le poste
-              		</small>
-              	{%endif%}
+              	
               </p>
 
               <ul class="list-group list-group-unbordered">
@@ -49,25 +44,11 @@
                   <b>Email</b> 
                   <a class="pull-right">
                   <small>
-                  	{{employe.email}}
+                  	{{agent.email}}
                   </small>
                   </a>
                 </li>
-                <li class="list-group-item">
-                  <b>Téléphone</b> <a class="pull-right">{{employe.telephone}} </a>
-                </li>
-                <li class="list-group-item">
-                  <b>CODE</b> <a class="pull-right">{{employe.code}} </a>
-                </li>
                
-               {%if employe.compte is not null and is_granted('ROLE_ADMIN')%}
-                <a onclick="activerCompteConnexion('{{employe.compte.id}}')" href="#" class="btn btn-xs btn-default pull-right">
-                    Activer/Désactiver
-                  </a>
-                  <a onclick="reinitialiserMotDePasse('{{employe.compte.id}}')" href="#" class="btn btn-xs btn-default pull-left">
-                    Réinitialiser mot de passe
-                  </a>
-                {%endif%}
                 
               </ul>
 
@@ -76,38 +57,7 @@
           </div>
           <!-- /.box -->
 
-          <!-- About Me Box -->
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title">Poste(s)</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-            	{%for p in postes %}
-            		<strong>
-            			{%if p.active %}
-            				<i class="fa-check-circle fa text-success pull-left"></i>
-            			{%endif%}
-            			{{p.fonction.nom}}
-            			
-            		</strong>
-
-		              <p class="text-muted">
-		                {{p.service.nom}}
-		              </p>
-
-		              <hr>
-            	{%endfor%}
-              
-              <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
-              <p>
-              {%if poste is not null and poste.fonction is not null %}
-                {{poste.fonction.actions|raw}}
-              {%endif%}
-              </p>
-            </div>
-            <!-- /.box-body -->
-          </div>
+          
           <!-- /.box -->
         </div>
         <!-- /.col -->
@@ -120,38 +70,23 @@
             <div class="tab-content">
 
             <div class="active tab-pane" id="settings">
-                {{form_start(form)}}
+             
          
-                  <div class="box-body">
-
-                    
-                     	<div class="col-md-8 col-md-offset-2">
-                        <div class="form-group" style="display:block;width:100%">
-                          <label for="exampleInputEmail1">Fonction</label>
-                          
-                          {{form_widget(form.fonction,{'attr':{'class':'form-control select2','style':'width:100%'}})}}
-                        </div>
-                        <div class="form-group">
-                          <label for="exampleInputPassword1">Entité</label>
-                          {{form_widget(form.service,{'attr':{'class':'form-control select2','style':'width:100%'}})}}
-                        </div>
-                        </div>
-                       
-                      </div>
+                  
                   
 
                   <div class="box-footer">
-                    {{form_widget(form.save,{'attr':{'class':'btn btn-primary'}})}}
+                 
 
-                    {%if is_granted('ROLE_TROMB')%}
+                    
                 
-                  <a class="btn btn-danger pull-right btn-xs" href="{{url('trc_admin_utilisateurs_modifier',{id:employe.id})}} ">
+                  <a class="btn btn-danger pull-right btn-xs" href="{{url('trc_admin_utilisateurs_modifier',{id:agent.id})}} ">
                     <i class="fa-edit fa"></i>
                     Modifier
                   </a>
-                {%endif%}
+              
                   </div>
-                {{form_end(form)}}
+               
             
             </div>
             

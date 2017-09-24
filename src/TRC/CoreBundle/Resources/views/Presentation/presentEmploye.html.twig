@@ -2,14 +2,10 @@
 {%if recherche is null %}
 <div class="row">
 	<div class="col-md-4">
-		<img src="{{asset(employe.image)}} " style="max-width: 100%">
+		<img src="{{asset('img/dh.png')}} " style="max-width: 100%">
 	</div>
 	<div class="col-md-8">
-		{%if poste is not null %}
-			<a href="{{url('trc_tromb_employe',{code:poste.service.code,matricule:employe.code})}} " class="pull-right btn btn-xs btn-default">
-				Voir <i class="fa-eye fa"></i>
-			</a>
-		{%endif%}
+		
 		<h4>
 			{{employe.nomprenom()}}
 		</h4>
@@ -20,28 +16,20 @@
 	        	{{employe.email}}
 	        </a>
 	    </h6>
-	    <h6>
-	        <i class="fa-phone fa"></i> :
-	        {{employe.telephone}}
-	    </h6>
-	    {%if poste is not null %}
+	    
+	    
 	    	
 	        <h6>
 	        	<i class="fa-graduation-cap fa"></i>
-	            {{poste.fonction.nom}}
+	            {{employe.profil.nom}}
 	        </h6>
 	        
-	    {%endif%}
-	    <h6>
-	    	<i class="fa-barcode fa"></i>
-	       <em><strong>{{employe.code}}</strong></em>
-	    </h6>
 	</div>
 </div>
 {%else%}
 <div class="row">
 	<div class="col-md-1 col-sm-2 col-xs-3">
-		<img src="{{asset(employe.image)}} " class="img-circle" style="max-width: 100%">
+		<img src="{{asset('img/dh.png')}} " class="img-circle" style="max-width: 100%">
 	</div>
 	<div class="col-md-11 col-sm-10 col-xs-9" >
 	
@@ -51,27 +39,8 @@
 	        	{{employe.email}}
 	        </a>
 	    </h6>
-	    <h6>
-	        <i class="fa-phone fa"></i> :
-	        {{employe.telephone}}
-	    </h6>
-	    {%if poste is not null %}
-	    	<h6>
-	            {{poste.service.nom}}
-	        </h6>
-	         <h6>
-	            {{poste.fonction.nom}}
-	        </h6>
-	        {%if poste.fonction.responsable %}
-	        	<h6>
-	        		<i class="fa-check-square fa text-success"></i>
-	        		Responsable
-	        	</h6>
-	        {%endif%}
-	        <h6>
-	        	<em>#{{employe.code}}</em>
-	        </h6>
-	    {%endif%}
+	  
+	    
 	</div>
 </div>
 

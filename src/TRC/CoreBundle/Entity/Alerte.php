@@ -43,28 +43,50 @@ class Alerte
     private $montant;
     
     /**
-     * @ORM\ManyToOne(targetEntity="TRC\CoreBundle\Entity\Client")
+     * @ORM\OneToOne(targetEntity="TRC\CoreBundle\Entity\Statut")
      * @ORM\JoinColumn(nullable=true)
+     */
+    private $statut;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="TRC\CoreBundle\Entity\Client")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $client;
     
     /**
      * @ORM\ManyToOne(targetEntity="TRC\CoreBundle\Entity\TypeOperation")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $operation;
     
     /**
      * @ORM\ManyToOne(targetEntity="TRC\CoreBundle\Entity\Agent")
-     * @ORM\JoinColumn(nullable=true)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $agent;
+    
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="cloture", type="boolean")
+     */
+    private $cloture;
+   
 
+    public function __construct(){
+        $this->dateOperation = $this->at = new \DateTime();
+        $this->cloture =false;
+    }
+
+       public function getEntite(){
+           return $this->agent->getEntite();
+       }
 
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -144,13 +166,38 @@ class Alerte
     }
 
     /**
+     * Set statut
+     *
+     * @param \TRC\CoreBundle\Entity\Statut $statut
+     *
+     * @return Alerte
+     */
+    public function setStatut(\TRC\CoreBundle\Entity\Statut $statut = null)
+    {
+        $this->statut = $statut;
+        if(!is_null($statut))
+        $this->setCloture($statut->getStatut()->getCloture());
+        return $this;
+    }
+
+    /**
+     * Get statut
+     *
+     * @return \TRC\CoreBundle\Entity\Statut
+     */
+    public function getStatut()
+    {
+        return $this->statut;
+    }
+
+    /**
      * Set client
      *
      * @param \TRC\CoreBundle\Entity\Client $client
      *
      * @return Alerte
      */
-    public function setClient(\TRC\CoreBundle\Entity\Client $client = null)
+    public function setClient(\TRC\CoreBundle\Entity\Client $client)
     {
         $this->client = $client;
 
@@ -213,5 +260,29 @@ class Alerte
     public function getAgent()
     {
         return $this->agent;
+    }
+
+    /**
+     * Set cloture
+     *
+     * @param boolean $cloture
+     *
+     * @return Alerte
+     */
+    public function setCloture($cloture)
+    {
+        $this->cloture = $cloture;
+
+        return $this;
+    }
+
+    /**
+     * Get cloture
+     *
+     * @return boolean
+     */
+    public function getCloture()
+    {
+        return $this->cloture;
     }
 }

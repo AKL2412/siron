@@ -9,7 +9,19 @@
 
       
 {%block content%}
-
+ <div class="row" style="margin-top:4%">
+ 	<div class="col-md-8 col-md-offset-2">
+ 		<form action="{{ url('trc_core_recherche') }}">
+ 			<input name="q" type="search" placeholder="Radical du client" class="form-control">
+ 		</form>
+ 		<div class="text-center">
+ 			<br>
+ 			<button class="btn btn-default" type="submit">
+ 				<i class="fa fa-search"></i> Rechercher
+ 			</button>
+ 		</div>
+ 	</div>
+ </div>
 {%endblock%}
 {%block script%}
 <script type="text/javascript">

@@ -1,0 +1,82 @@
+{%extends '::layout.html.twig'%}
+{%block title%}
+{{parent()}}
+{%endblock%}
+{%block position %}
+    {{parent()}}
+    <li >
+          	<a href="{{url('trc_core_les_alerts')}} ">
+              <i class="fa-tags fa"></i>
+          		Alertes
+          	</a>
+          </li>
+{%endblock position%}
+{%block titrepage%}
+   Les Alertes
+
+{%endblock titrepage%}
+{%block content%}
+<div class="row">
+	<div class="col-md-4">
+		<form>
+			<select name="statut" class="form-control">
+				<option value="tous">Tous</option>
+				{% for s in statuts%}
+					<option value="{{s.code}}"
+					{%if s.code == statutSearch%} selected="selected"{%endif%} 
+					>{{s.nom}} </option>
+				{%endfor%}
+			</select>
+			<button type="submit" class="btn btn-xs btn-default">
+				rechercher
+			</button>
+		</form>
+	</div>
+</div>
+<hr>
+<div class="row">
+<div class="col-md-12">
+
+	<div>
+		<table class="table table-condensed table-bordered table-striped">
+			<thead>
+				<tr>
+					<th></th>
+					<th>Statut</th>
+					<th>Entité</th>
+					<th>Client</th>
+					<th>Opération</th>
+					<th>Montant</th>
+					<th>Date de saisie</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for a in alertes  %}
+				
+					<tr>
+						<td>#{{a.id}}</td>
+						<td>{{a.statut.statut.nom}}</td>
+						<td>{{ a.entite.nom }}</td>
+						<td>{{ a.client.nom }}</td>
+						<td>{{ a.operation.code }}</td>
+						<td>{{ formatMontant(a.montant) }}</td>
+						<td>{{ a.at|date('d-m-y H:i') }}</td>
+						<td>
+							<a href="{{ url('trc_core_voir_alert',{id:a.id}) }}">
+								<i class="fa fa-eye"></i>
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+</div>
+{%endblock%}
+{%block script%}
+<script type="text/javascript">
+    activeLink("alertes")
+</script>
+{%endblock script%}

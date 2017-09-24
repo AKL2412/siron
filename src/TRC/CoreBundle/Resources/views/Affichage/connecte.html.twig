@@ -1,18 +1,14 @@
 <div class="user-panel">
         <div class="pull-left image">
-          <img src="{{asset(app.session.get('compte').image)}}" class="img-circle" alt="User Image" height="50">
+          <img src="{{asset('img/dh.png')}}" class="img-circle" alt="User Image" height="50">
         </div>
         <div class="pull-left info">
           <p>{{app.session.get('moi')}}</p>
-          {%if jeSuisEnLigne(app.user) %}
-          <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-          {%else%}
-          <a href="#"><i class="fa fa-circle text-dafault"></i> Offline</a>
-          {%endif%}
+          
         </div>
       </div>
       <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
+      <form action="{{ url('trc_core_recherche') }}" method="get" class="sidebar-form">
         <div class="input-group">
           <input type="text" name="q" class="form-control" placeholder="Search...">
               <span class="input-group-btn">

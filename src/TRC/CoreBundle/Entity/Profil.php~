@@ -94,4 +94,3 @@ class Profil
         return $this->code;
     }
 }
-

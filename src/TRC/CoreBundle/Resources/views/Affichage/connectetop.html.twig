@@ -1,18 +1,21 @@
 <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="{{asset(app.session.get('compte').image)}}" class="user-image" alt="User Image">
+              <img src="{{ asset('img/dh.png') }}" class="user-image" alt="User Image">
               <span class="hidden-xs">
-              {{app.session.get('compte').prenom|upper}}
+              {{agent.prenom|upper}}
               </span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="{{asset(app.session.get('compte').image)}}" class="img-circle" alt="User Image">
+                <img src="{{ asset('img/dh.png') }}" class="img-circle" alt="User Image">
 
                 <p>
-                  {{app.session.get('compte').prenom~" "~app.session.get('compte').nom|upper}} <br>{{app.session.get('poste')}}
-                 <!--  <small>Member since Nov. 2012</small> -->
+                	
+                  {{agent.prenom~" "~agent.nom|upper}} <br>
+                 <small>
+                    {{ agent.entite.code }} {{ agent.profil.code }}
+                 </small>
                 </p>
               </li>
               <!-- Menu Body -->
@@ -32,16 +35,9 @@
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
-                <div class="pull-left">
-                
-                    <a href="{{url('trc_admin_mon_compte')}} " class="btn btn-default btn-flat">Profile</a>
-               
-                 
-                  
-                  
-                </div>
+                <div class="pull-left"></div>
                 <div class="pull-right">
-                  <a href="{{url('trc_core_logout')}} " class="btn btn-default btn-flat">Sign out</a>
+                  <a href="{{url('fos_user_security_logout')}} " class="btn btn-default btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>
